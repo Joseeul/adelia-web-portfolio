@@ -1,7 +1,9 @@
 function App() {
   return (
     <>
-      <h1>hello adelia web portfolio</h1>
+      <h1 className="text-3xl font-bold underline">
+        hello adelia web portfolio
+      </h1>
     </>
   );
 }
