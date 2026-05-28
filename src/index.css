@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+@theme {
+  --color-rose-dark: #c68290;
+  --color-rose-light: #fbb6c4;
+  --color-cream: #faf5ec;
+  --color-gray-light: #d4d4d4;
+
+  --font-abeezee: 'ABeeZee', sans-serif;
+  --font-footlight: 'Footlight MT Light', serif;
+}
+
+@font-face {
+  font-family: 'ABeeZee';
+  src: url('./assets/fonts/ABeeZee-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ABeeZee';
+  src: url('./assets/fonts/ABeeZee-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Footlight MT Light';
+  src: url('./assets/fonts/Footlight MT Light Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

@@ -1,9 +1,8 @@
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-        hello adelia web portfolio
-      </h1>
+      <p className="text-3xl font-footlight font-bold">adelia web portfolio</p>
+      <p className="text-xl font-abeezee">coming soon</p>
     </>
   );
 }
