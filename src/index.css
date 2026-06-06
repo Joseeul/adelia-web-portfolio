@@ -58,3 +58,28 @@
   font-weight: 800;
   font-style: normal;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-rose-dark);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b56e7c;
+}
+
+/* Custom Selection */
+::selection {
+  background-color: var(--color-rose-light);
+  color: #ffffff;
+}
