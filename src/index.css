@@ -7,7 +7,7 @@
   --color-gray-light: #d4d4d4;
 
   --font-abeezee: 'ABeeZee', sans-serif;
-  --font-footlight: 'Footlight MT Light', serif;
+  --font-footlight: 'Footlight MT Pro', serif;
 }
 
 @font-face {
@@ -25,8 +25,36 @@
 }
 
 @font-face {
-  font-family: 'Footlight MT Light';
-  src: url('./assets/fonts/Footlight MT Light Regular.ttf') format('truetype');
+  font-family: 'Footlight MT Pro';
+  src: url('./assets/fonts/FootlightMTProRegular.otf') format('opentype');
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Footlight MT Pro';
+  src: url('./assets/fonts/FootlightMTProItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Footlight MT Pro';
+  src: url('./assets/fonts/FootlightMTProLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Footlight MT Pro';
+  src: url('./assets/fonts/FootlightMTProBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Footlight MT Pro';
+  src: url('./assets/fonts/FootlightMTProExtraBold.otf') format('opentype');
+  font-weight: 800;
   font-style: normal;
 }
