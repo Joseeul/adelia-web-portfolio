@@ -117,7 +117,7 @@ export default function Journey() {
             />
             Academic, Work & Project
           </div>
-          <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black">
+          <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black mt-6">
             My <span className="text-rose-dark underline">Academic</span> and{" "}
             <span className="text-rose-dark underline">Professional</span>{" "}
             Journey
