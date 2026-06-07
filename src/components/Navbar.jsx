@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.svg";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +19,21 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (e, href) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      if (location.pathname !== "/") {
+        navigate("/" + href);
+      } else {
+        const targetId = href === "#" ? "html" : href;
+        const element = document.querySelector(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
 
   const navLinks = [
     { name: "Overview", href: "#" },
@@ -33,8 +51,9 @@ export default function Navbar() {
     >
       <div className="w-full px-6 sm:px-12 flex justify-between items-center">
         {/* Brand Logo */}
-        <a
-          href="#"
+        <Link
+          to="/"
+          onClick={(e) => handleNavClick(e, "#")}
           className="hover:opacity-80 transition-opacity duration-200 flex items-center"
         >
           <img
@@ -42,7 +61,7 @@ export default function Navbar() {
             alt="Adelia Wiratma Logo"
             className="h-9 md:h-13 w-auto"
           />
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
@@ -51,6 +70,7 @@ export default function Navbar() {
               <li key={link.name}>
                 <a
                   href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className="relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-rose-dark after:transition-all after:duration-300 hover:after:w-full transition-colors hover:text-rose-dark"
                 >
                   {link.name}
@@ -60,6 +80,7 @@ export default function Navbar() {
           </ul>
           <a
             href="#contact"
+            onClick={(e) => handleNavClick(e, "#contact")}
             className="px-4 py-2.5 bg-rose-dark text-cream hover:bg-[#b56e7c] active:scale-95 text-base font-medium rounded-full font-abeezee shadow-sm hover:shadow-md transition-all duration-300"
           >
             Contact Me
@@ -109,7 +130,10 @@ export default function Navbar() {
             <li key={link.name}>
               <a
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => {
+                  setIsOpen(false);
+                  handleNavClick(e, link.href);
+                }}
                 className="block py-2 border-b border-rose-dark/5 hover:text-rose-light transition-colors"
               >
                 {link.name}
@@ -119,7 +143,10 @@ export default function Navbar() {
           <li>
             <a
               href="#contact"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => {
+                setIsOpen(false);
+                handleNavClick(e, "#contact");
+              }}
               className="inline-block w-full text-center px-6 py-2.5 bg-rose-dark text-cream hover:bg-[#b56e7c] rounded-full text-sm font-medium shadow-sm transition-colors"
             >
               Contact Me

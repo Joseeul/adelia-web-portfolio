@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import brushIcon from "../assets/icons/brush_icon.svg";
 
 export default function Portfolio() {
@@ -5,8 +6,9 @@ export default function Portfolio() {
     {
       title: "Drawings",
       description:
-        "A collection of digital and traditional artwork, featuring custom illustrations, character concepts, and stylized greeting cards.",
+        "A selection of digital and traditional illustrations, character designs, and background concept art.",
       buttonText: "Discover Drawings",
+      path: "/drawings",
       icon: (
         <svg
           className="w-12 h-12 text-rose-dark/45"
@@ -32,8 +34,9 @@ export default function Portfolio() {
     {
       title: "Videos",
       description:
-        "Short animations, motion graphics, and video projects that bring stories, characters, and concepts to life.",
+        "2D animated shorts, motion graphics, and video editing compilations showing motion principles and timing.",
       buttonText: "Discover Videos",
+      path: "/videos",
       icon: (
         <svg
           className="w-12 h-12 text-rose-dark/45"
@@ -59,8 +62,9 @@ export default function Portfolio() {
     {
       title: "Photos",
       description:
-        "Visual explorations and photography capturing moments, lighting, and perspectives that inspire my creative process.",
+        "Landscape, portrait photography, and experimental photo manipulations capturing unique lighting and framing.",
       buttonText: "Discover Photos",
+      path: "/photos",
       icon: (
         <svg
           className="w-12 h-12 text-rose-dark/45"
@@ -118,20 +122,23 @@ export default function Portfolio() {
                 </div>
 
                 {/* Card Title */}
-                <h3 className="font-footlight text-2xl font-bold text-left mb-3 underline">
+                <h3 className="font-footlight text-2xl font-bold text-left mb-3">
                   {cat.title}
                 </h3>
 
                 {/* Card Description */}
-                <p className="font-abeezee text-sm text-rose-dark leading-relaxed text-left mb-8">
+                <p className="font-abeezee text-sm text-rose-dark/80 leading-relaxed text-left mb-8">
                   {cat.description}
                 </p>
               </div>
 
               {/* Action Button */}
-              <button className="w-full py-3 bg-rose-dark text-cream hover:bg-[#b56e7c] active:scale-[0.98] rounded-full text-sm font-semibold font-abeezee shadow-sm hover:shadow-md transition-all duration-300">
+              <Link
+                to={cat.path}
+                className="w-full py-3 bg-rose-dark text-cream hover:bg-[#b56e7c] active:scale-[0.98] rounded-full text-sm font-semibold font-abeezee shadow-sm hover:shadow-md transition-all duration-300 text-center block"
+              >
                 {cat.buttonText}
-              </button>
+              </Link>
             </div>
           ))}
         </div>
