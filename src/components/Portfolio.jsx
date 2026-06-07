@@ -1,9 +1,11 @@
+import brushIcon from "../assets/icons/brush_icon.svg";
+
 export default function Portfolio() {
   const categories = [
     {
       title: "Drawings",
       description:
-        "A selection of digital and traditional illustrations, character designs, and background concept art.",
+        "A collection of digital and traditional artwork, featuring custom illustrations, character concepts, and stylized greeting cards.",
       buttonText: "Discover Drawings",
       icon: (
         <svg
@@ -30,7 +32,7 @@ export default function Portfolio() {
     {
       title: "Videos",
       description:
-        "2D animated shorts, motion graphics, and video editing compilations showing motion principles and timing.",
+        "Short animations, motion graphics, and video projects that bring stories, characters, and concepts to life.",
       buttonText: "Discover Videos",
       icon: (
         <svg
@@ -57,7 +59,7 @@ export default function Portfolio() {
     {
       title: "Photos",
       description:
-        "Landscape, portrait photography, and experimental photo manipulations capturing unique lighting and framing.",
+        "Visual explorations and photography capturing moments, lighting, and perspectives that inspire my creative process.",
       buttonText: "Discover Photos",
       icon: (
         <svg
@@ -88,27 +90,13 @@ export default function Portfolio() {
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold font-abeezee tracking-widest uppercase text-rose-light/80 mb-2">
-            <svg
-              className="w-4 h-4 text-rose-light"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-              />
-            </svg>
+          <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-cream mb-2">
+            <img src={brushIcon} alt="Brush Icon" className="w-9 h-9" />
             My Portfolio
           </div>
-          <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl font-bold text-cream">
-            Discover My <span className="underline decoration-rose-light decoration-wavy decoration-2 underline-offset-8">Projects.</span>
+          <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-cream mt-6">
+            Discover My <span className="underline">Projects.</span>
           </h2>
-          <div className="w-12 h-1 bg-rose-light/40 rounded-full mt-6"></div>
         </div>
 
         {/* Portfolio Cards Grid */}
@@ -130,12 +118,12 @@ export default function Portfolio() {
                 </div>
 
                 {/* Card Title */}
-                <h3 className="font-footlight text-2xl font-bold text-left mb-3">
+                <h3 className="font-footlight text-2xl font-bold text-left mb-3 underline">
                   {cat.title}
                 </h3>
 
                 {/* Card Description */}
-                <p className="font-abeezee text-sm text-rose-dark/80 leading-relaxed text-left mb-8">
+                <p className="font-abeezee text-sm text-rose-dark leading-relaxed text-left mb-8">
                   {cat.description}
                 </p>
               </div>
