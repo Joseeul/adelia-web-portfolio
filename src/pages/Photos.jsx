@@ -112,13 +112,7 @@ export default function Photos() {
                 {/* Visual Block with camera lens overlay */}
                 <div className={`w-full aspect-[4/3] bg-gradient-to-tr ${photo.gradient} rounded-[22px] flex items-center justify-center overflow-hidden relative mb-5 border border-rose-dark/5 shadow-inner`}>
                   <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                  {/* Category & Location Badges */}
-                  <span className="absolute top-4 left-4 px-3 py-1 bg-white/95 text-rose-dark text-xs font-bold font-abeezee rounded-full shadow-sm">
-                    {photo.category}
-                  </span>
-                  <span className="absolute bottom-4 left-4 text-[11px] font-medium font-abeezee text-rose-dark/75 bg-cream/80 px-2 py-0.5 rounded shadow-sm">
-                    {photo.location}
-                  </span>
+
                   {/* Camera Silhouette Icon */}
                   <svg
                     className="w-12 h-12 text-rose-dark/25 transform group-hover:scale-110 transition-transform duration-300"
@@ -146,13 +140,13 @@ export default function Photos() {
                   <h3 className="font-footlight text-xl font-bold text-black text-left group-hover:text-rose-dark transition-colors">
                     {photo.title}
                   </h3>
-                  <span className="font-abeezee text-[11px] font-bold text-rose-light bg-rose-dark/5 px-2 py-0.5 rounded-md mt-1">
+                  <span className="font-abeezee text-[11px] font-bold text-rose-dark bg-rose-dark/5 px-2 py-0.5 rounded-md mt-1">
                     {photo.year}
                   </span>
                 </div>
 
                 {/* Description */}
-                <p className="font-abeezee text-[13px] text-rose-dark/85 text-left px-1 mb-4 leading-relaxed">
+                <p className="font-abeezee text-base text-rose-dark text-left px-1 mb-4 leading-relaxed">
                   {photo.description}
                 </p>
               </div>

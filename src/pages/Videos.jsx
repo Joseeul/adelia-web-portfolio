@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Videos() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -10,36 +12,33 @@ export default function Videos() {
     {
       title: "Starlight Symphony",
       category: "2D Animation",
-      duration: "1:45 Min",
       year: "2025",
-      gradient: "from-[#8c4bff]/30 to-[#ff4b82]/30",
+      youtubeId: "Owkr3YzkmJ8",
       description: "A short student animation studying character expression, acting, and fluid transitions.",
     },
     {
       title: "Rhythm of Life",
       category: "Motion Graphics",
-      duration: "0:45 Min",
       year: "2024",
-      gradient: "from-[#4bc3ff]/30 to-[#8c4bff]/30",
+      youtubeId: "eRsGyueVLvQ",
       description: "A dynamic kinetic typography and abstract shapes compilation synced to upbeat rhythm.",
     },
     {
       title: "The Lost Page",
       category: "Animatic & Storyboard",
-      duration: "3:12 Min",
       year: "2024",
-      gradient: "from-[#FEDD8C]/40 to-[#ffd3b6]/40",
+      youtubeId: "R6MlUcmO1Mc",
       description: "Complete storyboard compilation showing narrative pacing and key pose composition.",
     },
-    {
-      title: "Chasing Shadows",
-      category: "Animation Study",
-      duration: "0:25 Min",
-      year: "2025",
-      gradient: "from-[#ffb6c4]/40 to-[#ffd3b6]/40",
-      description: "Frame-by-frame practice focusing on timing, squash and stretch, and solid drawing.",
-    },
   ];
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev === 0 ? videos.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev === videos.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden">
@@ -85,53 +84,136 @@ export default function Videos() {
           </p>
         </div>
 
-        {/* Videos Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl">
-          {videos.map((video, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-[32px] p-5 flex flex-col justify-between text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+        {/* Carousel Container */}
+        <div className="flex flex-col items-center max-w-4xl mx-auto w-full">
+          {/* Main row (Desktop/Tablet) */}
+          <div className="flex items-center justify-between w-full gap-4 sm:gap-6">
+            {/* Left Arrow (Desktop/Tablet) */}
+            <button
+              onClick={prevSlide}
+              className="hidden sm:flex w-12 h-12 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 active:scale-95 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer shrink-0"
+              aria-label="Previous Video"
             >
-              <div>
-                {/* Visual Block with play button overlay */}
-                <div className={`w-full aspect-[16/9] bg-gradient-to-tr ${video.gradient} rounded-[22px] flex items-center justify-center overflow-hidden relative mb-5 border border-rose-dark/5 shadow-inner`}>
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                  {/* Category & Duration Badges */}
-                  <span className="absolute top-4 left-4 px-3 py-1 bg-white/95 text-rose-dark text-xs font-bold font-abeezee rounded-full shadow-sm">
-                    {video.category}
-                  </span>
-                  <span className="absolute bottom-4 right-4 px-2.5 py-0.5 bg-black/60 text-white text-[11px] font-bold font-abeezee rounded-md shadow-sm">
-                    {video.duration}
-                  </span>
-                  {/* Play Button Overlay */}
-                  <div className="w-14 h-14 bg-white text-rose-dark rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-300 cursor-pointer">
-                    <svg
-                      className="w-6 h-6 fill-current translate-x-0.5"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
 
-                {/* Title & Info */}
-                <div className="flex justify-between items-start mb-2 px-1">
-                  <h3 className="font-footlight text-xl font-bold text-black text-left group-hover:text-rose-dark transition-colors">
-                    {video.title}
-                  </h3>
-                  <span className="font-abeezee text-[11px] font-bold text-rose-light bg-rose-dark/5 px-2 py-0.5 rounded-md mt-1">
-                    {video.year}
-                  </span>
-                </div>
-
-                {/* Description */}
-                <p className="font-abeezee text-[13px] text-rose-dark/85 text-left px-1 mb-4 leading-relaxed">
-                  {video.description}
-                </p>
-              </div>
+            {/* Video Viewport */}
+            <div className="flex-1 aspect-[16/9] w-full bg-black/5 rounded-3xl border-4 border-rose-dark overflow-hidden shadow-lg relative z-10">
+              <iframe
+                className="w-full h-full absolute inset-0"
+                src={`https://www.youtube.com/embed/${videos[currentIndex].youtubeId}`}
+                title={videos[currentIndex].title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
             </div>
-          ))}
+
+            {/* Right Arrow (Desktop/Tablet) */}
+            <button
+              onClick={nextSlide}
+              className="hidden sm:flex w-12 h-12 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 active:scale-95 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer shrink-0"
+              aria-label="Next Video"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Title & Description under the slide */}
+          <div className="mt-8 text-center max-w-2xl px-4">
+            <h2 className="font-footlight text-2xl sm:text-3xl font-bold text-black">
+              {videos[currentIndex].title}
+            </h2>
+            <p className="font-abeezee text-sm sm:text-base text-rose-dark/85 mt-2 leading-relaxed">
+              {videos[currentIndex].description}
+            </p>
+          </div>
+
+          {/* Controls for Mobile / Dots for all */}
+          <div className="flex items-center gap-6 mt-8">
+            {/* Mobile Left Arrow */}
+            <button
+              onClick={prevSlide}
+              className="flex sm:hidden w-10 h-10 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
+
+            {/* Pagination Dots */}
+            <div className="flex gap-2.5">
+              {videos.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentIndex === idx
+                      ? "bg-rose-dark scale-125 shadow-sm"
+                      : "bg-rose-dark/20 hover:bg-rose-dark/40"
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Mobile Right Arrow */}
+            <button
+              onClick={nextSlide}
+              className="flex sm:hidden w-10 h-10 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
