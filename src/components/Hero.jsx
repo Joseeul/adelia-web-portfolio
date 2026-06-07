@@ -6,6 +6,7 @@ import rightArrowIcon from "../assets/icons/right_arrow.svg";
 import eyeIcon from "../assets/icons/eye.svg";
 import linkedinIcon from "../assets/icons/linkedin_icon.svg";
 import instagramIcon from "../assets/icons/instagram_icon.svg";
+import scrollArrowIcon from "../assets/icons/scroll_arrow.svg";
 
 export default function Hero() {
   return (
@@ -130,23 +131,14 @@ export default function Hero() {
 
       {/* Down Scroll Indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center hidden md:flex flex-col items-center pointer-events-none z-10">
-        <span className="font-abeezee text-[11px] font-medium text-rose-dark/40 mb-1.5 uppercase tracking-wider">
-          Scroll down to see more about me
+        <span className="font-abeezee text-base font-medium text-rose-dark mb-1.5 tracking-wider">
+          Scroll down to learn more about me!
         </span>
-        <svg
-          className="w-4.5 h-4.5 text-rose-dark/50 animate-bounce"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-          />
-        </svg>
+        <img
+          src={scrollArrowIcon}
+          alt="Scroll Down Arrow"
+          className="w-6 h-6 animate-bounce mt-4"
+        />
       </div>
 
       {/* Custom Animations inject style */}
