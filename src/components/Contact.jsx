@@ -37,16 +37,23 @@ export default function Contact() {
       id="contact"
       className="py-24 bg-cream text-rose-dark relative overflow-hidden"
     >
-      {/* Background Soft Pink Ambient Gradients */}
+      {/* Background Ambient Glows */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute bottom-0 left-0 w-full h-[60%] bg-gradient-to-t from-rose-light/10 to-transparent pointer-events-none"></div>
+        {/* Left Circle: Rose Dark */}
+        <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-rose-dark/15 rounded-full blur-[100px] pointer-events-none"></div>
+        {/* Right Circle: Warm Yellow */}
+        <div className="absolute bottom-1/4 -right-20 w-[450px] h-[450px] bg-[#FEDD8C]/25 rounded-full blur-[120px] pointer-events-none"></div>
       </div>
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-black mb-2">
-            <img src={messageIcon} alt="Message Icon" className="w-9 h-9" />
+          <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-black mb-2">
+            <img
+              src={messageIcon}
+              alt="Message Icon"
+              className="w-5 h-5 sm:w-9 sm:h-9"
+            />
             Contact Me
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black mt-6">

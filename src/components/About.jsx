@@ -6,6 +6,7 @@ import eyeIcon from "../assets/icons/eye.svg";
 
 export default function About() {
   const [resumeUrl, setResumeUrl] = useState("https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk");
+  const [counts, setCounts] = useState({ videos: 0, photos: 0, drawings: 0 });
 
   useEffect(() => {
     async function fetchResumeUrl() {
@@ -21,7 +22,36 @@ export default function About() {
         console.error("Failed to fetch resume URL in About:", err);
       }
     }
+
+    async function fetchProjectCounts() {
+      try {
+        const [videoRes, photoRes, drawingRes] = await Promise.all([
+          supabase
+            .from("portfolios")
+            .select("*", { count: "exact", head: true })
+            .eq("category", "videos"),
+          supabase
+            .from("portfolios")
+            .select("*", { count: "exact", head: true })
+            .eq("category", "photos"),
+          supabase
+            .from("portfolios")
+            .select("*", { count: "exact", head: true })
+            .eq("category", "drawing"),
+        ]);
+
+        setCounts({
+          videos: videoRes.count || 0,
+          photos: photoRes.count || 0,
+          drawings: drawingRes.count || 0,
+        });
+      } catch (err) {
+        console.error("Failed to fetch project counts in About:", err);
+      }
+    }
+
     fetchResumeUrl();
+    fetchProjectCounts();
   }, []);
 
   return (
@@ -51,8 +81,8 @@ export default function About() {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Title */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-cream mb-2">
-            <img src={userIcon} alt="User Icon" className="w-9 h-9" />
+          <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-cream mb-2">
+            <img src={userIcon} alt="User Icon" className="w-5 h-5 sm:w-9 sm:h-9" />
             About Me
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl font-bold text-cream">
@@ -96,7 +126,7 @@ export default function About() {
             <div className="grid grid-cols-3 gap-4 mt-8 w-full">
               <div className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center hover:bg-cream/15 hover:scale-105 transition-all duration-300">
                 <div className="font-footlight text-2xl sm:text-3xl font-bold text-cream">
-                  20
+                  {counts.videos}
                 </div>
                 <div className="font-abeezee text-[10px] sm:text-xs text-cream/80 mt-1 uppercase tracking-wider font-semibold">
                   Video Projects
@@ -105,7 +135,7 @@ export default function About() {
 
               <div className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center hover:bg-cream/15 hover:scale-105 transition-all duration-300">
                 <div className="font-footlight text-2xl sm:text-3xl font-bold text-cream">
-                  20
+                  {counts.photos}
                 </div>
                 <div className="font-abeezee text-[10px] sm:text-xs text-cream/80 mt-1 uppercase tracking-wider font-semibold">
                   Photo Projects
@@ -114,7 +144,7 @@ export default function About() {
 
               <div className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center hover:bg-cream/15 hover:scale-105 transition-all duration-300">
                 <div className="font-footlight text-2xl sm:text-3xl font-bold text-cream">
-                  20
+                  {counts.drawings}
                 </div>
                 <div className="font-abeezee text-[10px] sm:text-xs text-cream/80 mt-1 uppercase tracking-wider font-semibold">
                   Drawings Projects

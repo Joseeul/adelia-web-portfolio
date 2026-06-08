@@ -69,8 +69,8 @@ export default function Tools() {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-20">
-          <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-black mb-2">
-            <img src={penToolIcon} alt="Pen Tool Icon" className="w-9 h-9" />
+          <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-black mb-2">
+            <img src={penToolIcon} alt="Pen Tool Icon" className="w-5 h-5 sm:w-9 sm:h-9" />
             My Tools
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl mt-6 text-black">

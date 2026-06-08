@@ -62,11 +62,11 @@ export default function Journey() {
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-black mb-2">
+          <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-black mb-2">
             <img
               src={starJourneyIcon}
               alt="Star Journey Icon"
-              className="w-9 h-9"
+              className="w-5 h-5 sm:w-9 sm:h-9"
             />
             Academic, Work & Project
           </div>
