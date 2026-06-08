@@ -144,15 +144,7 @@ export default function Videos() {
             </button>
           </div>
 
-          {/* Title & Description under the slide */}
-          <div className="mt-8 text-center max-w-2xl px-4">
-            <h2 className="font-footlight text-2xl sm:text-3xl font-bold text-black">
-              {videos[currentIndex].title}
-            </h2>
-            <p className="font-abeezee text-sm sm:text-base text-rose-dark/85 mt-2 leading-relaxed">
-              {videos[currentIndex].description}
-            </p>
-          </div>
+
 
           {/* Controls for Mobile / Dots for all */}
           <div className="flex items-center gap-6 mt-8">

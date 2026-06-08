@@ -1,83 +1,107 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+const drawings = [
+  {
+    title: "Whispers in the Woods",
+    category: "Digital Illustration",
+    type: "digital",
+    year: "2025",
+    image: "https://picsum.photos/seed/whispers/800/600",
+    gradient: "from-[#ffb6c4]/40 to-[#ffd3b6]/40",
+    description: "A whimsical visual development piece exploring mood and natural lighting.",
+  },
+  {
+    title: "Nebula Dreamer",
+    category: "Character Concept",
+    type: "digital",
+    year: "2025",
+    image: "https://picsum.photos/seed/nebula/800/600",
+    gradient: "from-[#8c4bff]/20 to-[#4bc3ff]/20",
+    description: "Character development study with focus on sci-fi clothing and expression.",
+  },
+  {
+    title: "Cozy Coffee Corner",
+    category: "Background Art",
+    type: "digital",
+    year: "2024",
+    image: "https://picsum.photos/seed/cozy/800/600",
+    gradient: "from-[#FEDD8C]/40 to-[#ffd3b6]/40",
+    description: "Background layout study focusing on perspective, warm colors, and props.",
+  },
+  {
+    title: "Spirit of the Samurai",
+    category: "Character Acting",
+    type: "manual",
+    year: "2024",
+    image: "https://picsum.photos/seed/samurai/800/600",
+    gradient: "from-[#ff4b82]/20 to-[#ffb6c4]/20",
+    description: "A dynamic pose sketch exploring line weight and traditional ink style.",
+  },
+  {
+    title: "Autumn Breeze",
+    category: "Visual Development",
+    type: "digital",
+    year: "2025",
+    image: "https://picsum.photos/seed/autumn/800/600",
+    gradient: "from-[#ffd3b6]/50 to-[#FEDD8C]/50",
+    description: "Color script study capturing the transition of seasons and wind motion.",
+  },
+  {
+    title: "The Clockwork Heart",
+    category: "Storyboard Panel",
+    type: "manual",
+    year: "2024",
+    image: "https://picsum.photos/seed/clockwork/800/600",
+    gradient: "from-[#d4d4d4]/40 to-[#c68290]/25",
+    description: "Keyframe drawing illustrating a crucial emotional beat in the story.",
+  },
+  {
+    title: "Echoes of Antiquity",
+    category: "Graphite Sketch",
+    type: "manual",
+    year: "2024",
+    image: "https://picsum.photos/seed/echoes/800/600",
+    gradient: "from-[#d4d4d4]/30 to-[#c68290]/15",
+    description: "A detailed pencil rendering exploring shadows and classical sculpture anatomy.",
+  },
+  {
+    title: "Forest Guardian",
+    category: "Ink & Watercolor",
+    type: "manual",
+    year: "2025",
+    image: "https://picsum.photos/seed/guardian/800/600",
+    gradient: "from-[#FEDD8C]/30 to-[#c68290]/20",
+    description: "Traditional ink illustration with delicate watercolor washes detailing a mythical forest spirit.",
+  },
+];
+
 export default function Drawings() {
   const [filter, setFilter] = useState("all");
+  const [selectedIdx, setSelectedIdx] = useState(null);
+
+  const filteredDrawings = drawings.filter(
+    (drawing) => filter === "all" || drawing.type === filter
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const drawings = [
-    {
-      title: "Whispers in the Woods",
-      category: "Digital Illustration",
-      type: "digital",
-      year: "2025",
-      gradient: "from-[#ffb6c4]/40 to-[#ffd3b6]/40",
-      description: "A whimsical visual development piece exploring mood and natural lighting.",
-    },
-    {
-      title: "Nebula Dreamer",
-      category: "Character Concept",
-      type: "digital",
-      year: "2025",
-      gradient: "from-[#8c4bff]/20 to-[#4bc3ff]/20",
-      description: "Character development study with focus on sci-fi clothing and expression.",
-    },
-    {
-      title: "Cozy Coffee Corner",
-      category: "Background Art",
-      type: "digital",
-      year: "2024",
-      gradient: "from-[#FEDD8C]/40 to-[#ffd3b6]/40",
-      description: "Background layout study focusing on perspective, warm colors, and props.",
-    },
-    {
-      title: "Spirit of the Samurai",
-      category: "Character Acting",
-      type: "manual",
-      year: "2024",
-      gradient: "from-[#ff4b82]/20 to-[#ffb6c4]/20",
-      description: "A dynamic pose sketch exploring line weight and traditional ink style.",
-    },
-    {
-      title: "Autumn Breeze",
-      category: "Visual Development",
-      type: "digital",
-      year: "2025",
-      gradient: "from-[#ffd3b6]/50 to-[#FEDD8C]/50",
-      description: "Color script study capturing the transition of seasons and wind motion.",
-    },
-    {
-      title: "The Clockwork Heart",
-      category: "Storyboard Panel",
-      type: "manual",
-      year: "2024",
-      gradient: "from-[#d4d4d4]/40 to-[#c68290]/25",
-      description: "Keyframe drawing illustrating a crucial emotional beat in the story.",
-    },
-    {
-      title: "Echoes of Antiquity",
-      category: "Graphite Sketch",
-      type: "manual",
-      year: "2024",
-      gradient: "from-[#d4d4d4]/30 to-[#c68290]/15",
-      description: "A detailed pencil rendering exploring shadows and classical sculpture anatomy.",
-    },
-    {
-      title: "Forest Guardian",
-      category: "Ink & Watercolor",
-      type: "manual",
-      year: "2025",
-      gradient: "from-[#FEDD8C]/30 to-[#c68290]/20",
-      description: "Traditional ink illustration with delicate watercolor washes detailing a mythical forest spirit.",
-    },
-  ];
-
-  const filteredDrawings = drawings.filter(
-    (drawing) => filter === "all" || drawing.type === filter
-  );
+  useEffect(() => {
+    if (selectedIdx === null) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        setSelectedIdx((prev) => (prev === 0 ? filteredDrawings.length - 1 : prev - 1));
+      } else if (e.key === "ArrowRight") {
+        setSelectedIdx((prev) => (prev === filteredDrawings.length - 1 ? 0 : prev + 1));
+      } else if (e.key === "Escape") {
+        setSelectedIdx(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIdx, filteredDrawings.length]);
 
   return (
     <div className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden">
@@ -162,54 +186,82 @@ export default function Drawings() {
           {filteredDrawings.map((drawing, index) => (
             <div
               key={index}
-              className="bg-white rounded-[32px] p-5 flex flex-col justify-between text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+              onClick={() => setSelectedIdx(index)}
+              className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
             >
-              <div>
-                {/* Visual Block with gradient */}
-                <div className={`w-full aspect-[4/3] bg-gradient-to-tr ${drawing.gradient} rounded-[22px] flex items-center justify-center overflow-hidden relative mb-5 border border-rose-dark/5 shadow-inner`}>
-                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-
-                  {/* Art Pen Silhouette Icon */}
-                  <svg
-                    className="w-12 h-12 text-rose-dark/25 transform group-hover:scale-110 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.53 16.122l9.37-9.37a2.25 2.25 0 113.182 3.182l-9.37 9.39a4.5 4.5 0 01-1.63 1.09l-3.02 1.008a.75.75 0 01-.94-.94l1.008-3.02a4.5 4.5 0 011.09-1.63z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 5.25l4 4M2.25 12a10.003 10.003 0 0015.75 8.25"
-                    />
-                  </svg>
-                </div>
-
-                {/* Title & Info */}
-                <div className="flex justify-between items-start mb-2 px-1">
-                  <h3 className="font-footlight text-xl font-bold text-black text-left group-hover:text-rose-dark transition-colors">
-                    {drawing.title}
-                  </h3>
-                  <span className="font-abeezee text-[11px] font-bold text-rose-dark bg-rose-dark/5 px-2 py-0.5 rounded-md mt-1">
-                    {drawing.year}
-                  </span>
-                </div>
-
-                {/* Description */}
-                <p className="font-abeezee text-base text-rose-dark text-left px-1 mb-4 leading-relaxed">
-                  {drawing.description}
-                </p>
+              {/* Visual Block with image */}
+              <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
+                <img
+                  src={drawing.image}
+                  alt={drawing.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedIdx !== null && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-300"
+          onClick={() => setSelectedIdx(null)}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setSelectedIdx(null)}
+            className="absolute top-6 right-6 text-cream/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 z-50 cursor-pointer"
+            aria-label="Close modal"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Left Arrow Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedIdx((prev) => (prev === 0 ? filteredDrawings.length - 1 : prev - 1));
+            }}
+            className="absolute left-6 w-14 h-14 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-white flex items-center justify-center transition-all duration-300 cursor-pointer z-50 border border-white/10"
+            aria-label="Previous artwork"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          {/* Modal Content / Visual Block */}
+          <div 
+            className="w-full max-w-3xl aspect-[4/3] px-6 relative flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full h-full bg-white rounded-[32px] overflow-hidden relative border border-white/10 shadow-2xl">
+              <img
+                src={filteredDrawings[selectedIdx].image}
+                alt={filteredDrawings[selectedIdx].title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedIdx((prev) => (prev === filteredDrawings.length - 1 ? 0 : prev + 1));
+            }}
+            className="absolute right-6 w-14 h-14 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-white flex items-center justify-center transition-all duration-300 cursor-pointer z-50 border border-white/10"
+            aria-label="Next artwork"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

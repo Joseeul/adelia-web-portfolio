@@ -1,61 +1,84 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+const photos = [
+  {
+    title: "Golden Hour Silence",
+    category: "Landscape",
+    location: "Malang, East Java",
+    year: "2024",
+    image: "https://picsum.photos/seed/golden/800/600",
+    gradient: "from-[#FEDD8C]/30 via-[#ffd3b6]/35 to-[#ffb6c4]/30",
+    description: "Sunset photography capturing the warm rays illuminating the mountaintops.",
+  },
+  {
+    title: "Urban Solitude",
+    category: "Street",
+    location: "Jakarta, Indonesia",
+    year: "2025",
+    image: "https://picsum.photos/seed/urban/800/600",
+    gradient: "from-[#d4d4d4]/40 to-[#c68290]/25",
+    description: "Black and white portrait of street vendors navigating the high-contrast city shadows.",
+  },
+  {
+    title: "Reflections of Youth",
+    category: "Portrait",
+    location: "Studio",
+    year: "2024",
+    image: "https://picsum.photos/seed/reflections/800/600",
+    gradient: "from-[#ffb6c4]/40 to-[#8c4bff]/15",
+    description: "Conceptual photo shoot exploring lighting reflections on mirrors and glass elements.",
+  },
+  {
+    title: "Neon Nights",
+    category: "Long Exposure",
+    location: "Tangerang",
+    year: "2025",
+    image: "https://picsum.photos/seed/neon/800/600",
+    gradient: "from-[#ff4b82]/20 via-[#8c4bff]/20 to-[#4bc3ff]/20",
+    description: "Long-exposure night photography tracking traffic light trails under colorful neon signage.",
+  },
+  {
+    title: "Nature's Geometry",
+    category: "Macro",
+    location: "Botanical Garden",
+    year: "2024",
+    image: "https://picsum.photos/seed/nature/800/600",
+    gradient: "from-[#ffd3b6]/50 to-[#FEDD8C]/50",
+    description: "Close-up macro study focusing on organic fractal patterns and water droplets on plant leaves.",
+  },
+  {
+    title: "Lost in Time",
+    category: "Architecture",
+    location: "Old Town Batavia",
+    year: "2025",
+    image: "https://picsum.photos/seed/losttime/800/600",
+    gradient: "from-[#d4d4d4]/50 to-[#ffd3b6]/30",
+    description: "Architectural frame detailing textures, colonial windows, and vintage shadows.",
+  },
+];
+
 export default function Photos() {
+  const [selectedIdx, setSelectedIdx] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const photos = [
-    {
-      title: "Golden Hour Silence",
-      category: "Landscape",
-      location: "Malang, East Java",
-      year: "2024",
-      gradient: "from-[#FEDD8C]/30 via-[#ffd3b6]/35 to-[#ffb6c4]/30",
-      description: "Sunset photography capturing the warm rays illuminating the mountaintops.",
-    },
-    {
-      title: "Urban Solitude",
-      category: "Street",
-      location: "Jakarta, Indonesia",
-      year: "2025",
-      gradient: "from-[#d4d4d4]/40 to-[#c68290]/25",
-      description: "Black and white portrait of street vendors navigating the high-contrast city shadows.",
-    },
-    {
-      title: "Reflections of Youth",
-      category: "Portrait",
-      location: "Studio",
-      year: "2024",
-      gradient: "from-[#ffb6c4]/40 to-[#8c4bff]/15",
-      description: "Conceptual photo shoot exploring lighting reflections on mirrors and glass elements.",
-    },
-    {
-      title: "Neon Nights",
-      category: "Long Exposure",
-      location: "Tangerang",
-      year: "2025",
-      gradient: "from-[#ff4b82]/20 via-[#8c4bff]/20 to-[#4bc3ff]/20",
-      description: "Long-exposure night photography tracking traffic light trails under colorful neon signage.",
-    },
-    {
-      title: "Nature's Geometry",
-      category: "Macro",
-      location: "Botanical Garden",
-      year: "2024",
-      gradient: "from-[#ffd3b6]/50 to-[#FEDD8C]/50",
-      description: "Close-up macro study focusing on organic fractal patterns and water droplets on plant leaves.",
-    },
-    {
-      title: "Lost in Time",
-      category: "Architecture",
-      location: "Old Town Batavia",
-      year: "2025",
-      gradient: "from-[#d4d4d4]/50 to-[#ffd3b6]/30",
-      description: "Architectural frame detailing textures, colonial windows, and vintage shadows.",
-    },
-  ];
+  useEffect(() => {
+    if (selectedIdx === null) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        setSelectedIdx((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+      } else if (e.key === "ArrowRight") {
+        setSelectedIdx((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+      } else if (e.key === "Escape") {
+        setSelectedIdx(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIdx, photos.length]);
 
   return (
     <div className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden">
@@ -106,54 +129,82 @@ export default function Photos() {
           {photos.map((photo, index) => (
             <div
               key={index}
-              className="bg-white rounded-[32px] p-5 flex flex-col justify-between text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+              onClick={() => setSelectedIdx(index)}
+              className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
             >
-              <div>
-                {/* Visual Block with camera lens overlay */}
-                <div className={`w-full aspect-[4/3] bg-gradient-to-tr ${photo.gradient} rounded-[22px] flex items-center justify-center overflow-hidden relative mb-5 border border-rose-dark/5 shadow-inner`}>
-                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-
-                  {/* Camera Silhouette Icon */}
-                  <svg
-                    className="w-12 h-12 text-rose-dark/25 transform group-hover:scale-110 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
-                    />
-                  </svg>
-                </div>
-
-                {/* Title & Info */}
-                <div className="flex justify-between items-start mb-2 px-1">
-                  <h3 className="font-footlight text-xl font-bold text-black text-left group-hover:text-rose-dark transition-colors">
-                    {photo.title}
-                  </h3>
-                  <span className="font-abeezee text-[11px] font-bold text-rose-dark bg-rose-dark/5 px-2 py-0.5 rounded-md mt-1">
-                    {photo.year}
-                  </span>
-                </div>
-
-                {/* Description */}
-                <p className="font-abeezee text-base text-rose-dark text-left px-1 mb-4 leading-relaxed">
-                  {photo.description}
-                </p>
+              {/* Visual Block with image */}
+              <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
+                <img
+                  src={photo.image}
+                  alt={photo.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedIdx !== null && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-300"
+          onClick={() => setSelectedIdx(null)}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setSelectedIdx(null)}
+            className="absolute top-6 right-6 text-cream/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 z-50 cursor-pointer"
+            aria-label="Close modal"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Left Arrow Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedIdx((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+            }}
+            className="absolute left-6 w-14 h-14 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-white flex items-center justify-center transition-all duration-300 cursor-pointer z-50 border border-white/10"
+            aria-label="Previous artwork"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          {/* Modal Content / Visual Block */}
+          <div 
+            className="w-full max-w-3xl aspect-[4/3] px-6 relative flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full h-full bg-white rounded-[32px] overflow-hidden relative border border-white/10 shadow-2xl">
+              <img
+                src={photos[selectedIdx].image}
+                alt={photos[selectedIdx].title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedIdx((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+            }}
+            className="absolute right-6 w-14 h-14 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-white flex items-center justify-center transition-all duration-300 cursor-pointer z-50 border border-white/10"
+            aria-label="Next artwork"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
