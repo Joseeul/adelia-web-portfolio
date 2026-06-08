@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 import starJourneyIcon from "../assets/icons/star_journey.svg";
 import educationIcon from "../assets/icons/education_icon.svg";
 import workIcon from "../assets/icons/work_icon.svg";
@@ -17,7 +19,7 @@ const TimelineItem = ({ date, title, subtitle }) => (
       <h4 className="font-footlight text-[15px] sm:text-2xl font-bold text-cream leading-tight">
         {title}
       </h4>
-      <p className="font-abeezee text-[12px] sm:text-base text-cream mt-1">
+      <p className="font-abeezee text-[12px] sm:text-base text-cream mt-1 whitespace-pre-line">
         {subtitle}
       </p>
     </div>
@@ -25,84 +27,35 @@ const TimelineItem = ({ date, title, subtitle }) => (
 );
 
 export default function Journey() {
-  const educationData = [
-    {
-      date: "2020 - Present",
-      title: "BINUS University",
-      subtitle: "Animation Student - Focusing on 2D Animation & Storyboarding",
-    },
-    {
-      date: "2017 - 2020",
-      title: "Santo Yusup 1 High School",
-      subtitle: "High School Graduate - Science Major",
-    },
-  ];
+  const [experiences, setExperiences] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const workData = [
-    {
-      date: "2023 - Present",
-      title: "Creative Design Staff at PKM",
-      subtitle: "Freelance Designer & Content Creator",
-    },
-    {
-      date: "2022 - 2023",
-      title: "Creative Design Articles for XYZ",
-      subtitle: "Freelance Graphic Illustrator & Writer",
-    },
-    {
-      date: "Oct 2021",
-      title: "Logistics Staff Member for Visual Art Exhibition",
-      subtitle: "Event Logistics & Backdrop Designer Coordinator",
-    },
-    {
-      date: "Jan - Mar 2021",
-      title: "Offline Editor for Class Share Film Project",
-      subtitle: "Video Editing & Color Grading Specialist",
-    },
-    {
-      date: "Jan - Mar 2021",
-      title: "Offline Editor for Class Share Film Project",
-      subtitle: "Video Editing & Color Grading Specialist",
-    },
-    {
-      date: "Jan - Mar 2021",
-      title: "Offline Editor for Class Share Film Project",
-      subtitle: "Video Editing & Color Grading Specialist",
-    },
-  ];
+  useEffect(() => {
+    async function fetchExperiences() {
+      try {
+        setIsLoading(true);
+        const { data, error: fetchError } = await supabase
+          .from("experiences")
+          .select("*")
+          .order("order_position", { ascending: true })
+          .order("created_at", { ascending: false });
 
-  const otherData = [
-    {
-      date: "Sep - Nov 2022",
-      title: "Head of Catering Division for Fund-raising & Exhibition",
-      subtitle: "Division Head & Budget Planner Coordinator",
-    },
-    {
-      date: "Jul - Aug 2021",
-      title: 'Logistics Staff Member for Movie: "Warna Warni Bersama"',
-      subtitle: "Prop Master & Layout Designer Assistant",
-    },
-    {
-      date: "Jun - Dec 2021",
-      title: "Decoration Staff Member for BINUS TV",
-      subtitle: "Scenic Designer & Set Decorator Staff",
-    },
-    {
-      date: "Apr - Jun 2021",
-      title: "Offline Editor for Class Share Film Project",
-      subtitle: "Video Editor & Continuity Checker",
-    },
-    {
-      date: "Apr - Jun 2021",
-      title: "Offline Editor for Class Share Film Project",
-      subtitle: "Video Editor & Continuity Checker",
-    },
-    {
-      date: "Apr - Jun 2021",
-      title: "Offline Editor for Class Share Film Project",
-      subtitle: "Video Editor & Continuity Checker",
-    },
-  ];
+        if (fetchError) throw fetchError;
+        setExperiences(data || []);
+      } catch (err) {
+        console.error("Error fetching experiences:", err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchExperiences();
+  }, []);
+
+  const educationData = experiences.filter((exp) => exp.type === "education");
+  const workData = experiences.filter((exp) => exp.type === "work experience");
+  const otherData = experiences.filter((exp) => exp.type === "other projects");
 
   return (
     <section id="journey" className="py-24 bg-cream text-rose-dark relative">
@@ -137,14 +90,25 @@ export default function Journey() {
                 </h3>
               </div>
               <div className="flex flex-col">
-                {educationData.map((item, index) => (
-                  <TimelineItem
-                    key={index}
-                    date={item.date}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                  />
-                ))}
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center py-6 text-cream/70">
+                    <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
+                    <p className="mt-2 text-xs font-abeezee">Loading education...</p>
+                  </div>
+                ) : error ? (
+                  <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
+                ) : educationData.length === 0 ? (
+                  <p className="text-xs text-cream/50 font-abeezee text-center py-4">No education history added.</p>
+                ) : (
+                  educationData.map((item) => (
+                    <TimelineItem
+                      key={item.id}
+                      date={item.time_range}
+                      title={item.title}
+                      subtitle={item.description}
+                    />
+                  ))
+                )}
               </div>
             </div>
 
@@ -157,14 +121,25 @@ export default function Journey() {
                 </h3>
               </div>
               <div className="flex flex-col">
-                {otherData.map((item, index) => (
-                  <TimelineItem
-                    key={index}
-                    date={item.date}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                  />
-                ))}
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center py-6 text-cream/70">
+                    <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
+                    <p className="mt-2 text-xs font-abeezee">Loading projects...</p>
+                  </div>
+                ) : error ? (
+                  <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
+                ) : otherData.length === 0 ? (
+                  <p className="text-xs text-cream/50 font-abeezee text-center py-4">No projects added.</p>
+                ) : (
+                  otherData.map((item) => (
+                    <TimelineItem
+                      key={item.id}
+                      date={item.time_range}
+                      title={item.title}
+                      subtitle={item.description}
+                    />
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -180,14 +155,25 @@ export default function Journey() {
                 </h3>
               </div>
               <div className="flex flex-col">
-                {workData.map((item, index) => (
-                  <TimelineItem
-                    key={index}
-                    date={item.date}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                  />
-                ))}
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center py-6 text-cream/70">
+                    <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
+                    <p className="mt-2 text-xs font-abeezee">Loading experiences...</p>
+                  </div>
+                ) : error ? (
+                  <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
+                ) : workData.length === 0 ? (
+                  <p className="text-xs text-cream/50 font-abeezee text-center py-4">No work experiences added.</p>
+                ) : (
+                  workData.map((item) => (
+                    <TimelineItem
+                      key={item.id}
+                      date={item.time_range}
+                      title={item.title}
+                      subtitle={item.description}
+                    />
+                  ))
+                )}
               </div>
             </div>
           </div>
