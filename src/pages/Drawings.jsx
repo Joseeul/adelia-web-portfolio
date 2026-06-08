@@ -1,84 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const drawings = [
-  {
-    title: "Whispers in the Woods",
-    category: "Digital Illustration",
-    type: "digital",
-    year: "2025",
-    image: "https://picsum.photos/seed/whispers/800/600",
-    gradient: "from-[#ffb6c4]/40 to-[#ffd3b6]/40",
-    description: "A whimsical visual development piece exploring mood and natural lighting.",
-  },
-  {
-    title: "Nebula Dreamer",
-    category: "Character Concept",
-    type: "digital",
-    year: "2025",
-    image: "https://picsum.photos/seed/nebula/800/600",
-    gradient: "from-[#8c4bff]/20 to-[#4bc3ff]/20",
-    description: "Character development study with focus on sci-fi clothing and expression.",
-  },
-  {
-    title: "Cozy Coffee Corner",
-    category: "Background Art",
-    type: "digital",
-    year: "2024",
-    image: "https://picsum.photos/seed/cozy/800/600",
-    gradient: "from-[#FEDD8C]/40 to-[#ffd3b6]/40",
-    description: "Background layout study focusing on perspective, warm colors, and props.",
-  },
-  {
-    title: "Spirit of the Samurai",
-    category: "Character Acting",
-    type: "manual",
-    year: "2024",
-    image: "https://picsum.photos/seed/samurai/800/600",
-    gradient: "from-[#ff4b82]/20 to-[#ffb6c4]/20",
-    description: "A dynamic pose sketch exploring line weight and traditional ink style.",
-  },
-  {
-    title: "Autumn Breeze",
-    category: "Visual Development",
-    type: "digital",
-    year: "2025",
-    image: "https://picsum.photos/seed/autumn/800/600",
-    gradient: "from-[#ffd3b6]/50 to-[#FEDD8C]/50",
-    description: "Color script study capturing the transition of seasons and wind motion.",
-  },
-  {
-    title: "The Clockwork Heart",
-    category: "Storyboard Panel",
-    type: "manual",
-    year: "2024",
-    image: "https://picsum.photos/seed/clockwork/800/600",
-    gradient: "from-[#d4d4d4]/40 to-[#c68290]/25",
-    description: "Keyframe drawing illustrating a crucial emotional beat in the story.",
-  },
-  {
-    title: "Echoes of Antiquity",
-    category: "Graphite Sketch",
-    type: "manual",
-    year: "2024",
-    image: "https://picsum.photos/seed/echoes/800/600",
-    gradient: "from-[#d4d4d4]/30 to-[#c68290]/15",
-    description: "A detailed pencil rendering exploring shadows and classical sculpture anatomy.",
-  },
-  {
-    title: "Forest Guardian",
-    category: "Ink & Watercolor",
-    type: "manual",
-    year: "2025",
-    image: "https://picsum.photos/seed/guardian/800/600",
-    gradient: "from-[#FEDD8C]/30 to-[#c68290]/20",
-    description: "Traditional ink illustration with delicate watercolor washes detailing a mythical forest spirit.",
-  },
-];
+import { supabase } from "../lib/supabase";
 
 export default function Drawings() {
   const [filter, setFilter] = useState("all");
   const [selectedIdx, setSelectedIdx] = useState(null);
+  const [drawings, setDrawings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const filteredDrawings = drawings.filter(
     (drawing) => filter === "all" || drawing.type === filter
@@ -86,6 +15,35 @@ export default function Drawings() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    async function fetchDrawings() {
+      try {
+        setIsLoading(true);
+        const { data, error: fetchError } = await supabase
+          .from("portfolios")
+          .select("*")
+          .eq("category", "drawing")
+          .order("created_at", { ascending: false });
+
+        if (fetchError) throw fetchError;
+
+        const mappedDrawings = (data || []).map((item) => ({
+          id: item.id,
+          image: item.file_url,
+          type: item.subcategory === "digital art" ? "digital" : "manual",
+          title: item.subcategory === "digital art" ? "Digital Art" : "Manual Art",
+        }));
+        setDrawings(mappedDrawings);
+      } catch (err) {
+        console.error("Error fetching drawings:", err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchDrawings();
   }, []);
 
   useEffect(() => {
@@ -181,29 +139,46 @@ export default function Drawings() {
           </button>
         </div>
 
-        {/* Drawings Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredDrawings.map((drawing, index) => (
-            <div
-              key={index}
-              onClick={() => setSelectedIdx(index)}
-              className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
-            >
-              {/* Visual Block with image */}
-              <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
-                <img
-                  src={drawing.image}
-                  alt={drawing.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+        {/* Drawings Grid / Loading / Error / Empty States */}
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 w-full">
+            <div className="w-12 h-12 border-4 border-rose-dark border-t-transparent rounded-full animate-spin animate-duration-1000"></div>
+            <p className="mt-4 font-abeezee text-rose-dark/70">Loading artworks...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-20 w-full">
+            <p className="font-abeezee text-red-500 font-semibold">Failed to load artworks</p>
+            <p className="text-xs text-rose-dark/50 mt-1">{error}</p>
+          </div>
+        ) : filteredDrawings.length === 0 ? (
+          <div className="text-center py-20 w-full">
+            <p className="font-abeezee text-rose-dark/60 font-semibold">No drawings found.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredDrawings.map((drawing, index) => (
+              <div
+                key={drawing.id || index}
+                onClick={() => setSelectedIdx(index)}
+                className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
+              >
+                {/* Visual Block with image */}
+                <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
+                  <img
+                    src={drawing.image}
+                    alt={drawing.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Lightbox Modal */}
-      {selectedIdx !== null && (
+      {selectedIdx !== null && filteredDrawings[selectedIdx] && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-300"
           onClick={() => setSelectedIdx(null)}

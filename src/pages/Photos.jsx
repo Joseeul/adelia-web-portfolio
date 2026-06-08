@@ -1,68 +1,43 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const photos = [
-  {
-    title: "Golden Hour Silence",
-    category: "Landscape",
-    location: "Malang, East Java",
-    year: "2024",
-    image: "https://picsum.photos/seed/golden/800/600",
-    gradient: "from-[#FEDD8C]/30 via-[#ffd3b6]/35 to-[#ffb6c4]/30",
-    description: "Sunset photography capturing the warm rays illuminating the mountaintops.",
-  },
-  {
-    title: "Urban Solitude",
-    category: "Street",
-    location: "Jakarta, Indonesia",
-    year: "2025",
-    image: "https://picsum.photos/seed/urban/800/600",
-    gradient: "from-[#d4d4d4]/40 to-[#c68290]/25",
-    description: "Black and white portrait of street vendors navigating the high-contrast city shadows.",
-  },
-  {
-    title: "Reflections of Youth",
-    category: "Portrait",
-    location: "Studio",
-    year: "2024",
-    image: "https://picsum.photos/seed/reflections/800/600",
-    gradient: "from-[#ffb6c4]/40 to-[#8c4bff]/15",
-    description: "Conceptual photo shoot exploring lighting reflections on mirrors and glass elements.",
-  },
-  {
-    title: "Neon Nights",
-    category: "Long Exposure",
-    location: "Tangerang",
-    year: "2025",
-    image: "https://picsum.photos/seed/neon/800/600",
-    gradient: "from-[#ff4b82]/20 via-[#8c4bff]/20 to-[#4bc3ff]/20",
-    description: "Long-exposure night photography tracking traffic light trails under colorful neon signage.",
-  },
-  {
-    title: "Nature's Geometry",
-    category: "Macro",
-    location: "Botanical Garden",
-    year: "2024",
-    image: "https://picsum.photos/seed/nature/800/600",
-    gradient: "from-[#ffd3b6]/50 to-[#FEDD8C]/50",
-    description: "Close-up macro study focusing on organic fractal patterns and water droplets on plant leaves.",
-  },
-  {
-    title: "Lost in Time",
-    category: "Architecture",
-    location: "Old Town Batavia",
-    year: "2025",
-    image: "https://picsum.photos/seed/losttime/800/600",
-    gradient: "from-[#d4d4d4]/50 to-[#ffd3b6]/30",
-    description: "Architectural frame detailing textures, colonial windows, and vintage shadows.",
-  },
-];
+import { supabase } from "../lib/supabase";
 
 export default function Photos() {
   const [selectedIdx, setSelectedIdx] = useState(null);
+  const [photos, setPhotos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    async function fetchPhotos() {
+      try {
+        setIsLoading(true);
+        const { data, error: fetchError } = await supabase
+          .from("portfolios")
+          .select("*")
+          .eq("category", "photos")
+          .order("created_at", { ascending: false });
+
+        if (fetchError) throw fetchError;
+
+        const mappedPhotos = (data || []).map((item) => ({
+          id: item.id,
+          image: item.file_url,
+          title: "Photography Artwork",
+        }));
+        setPhotos(mappedPhotos);
+      } catch (err) {
+        console.error("Error fetching photos:", err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchPhotos();
   }, []);
 
   useEffect(() => {
@@ -124,29 +99,46 @@ export default function Photos() {
           </p>
         </div>
 
-        {/* Photos Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {photos.map((photo, index) => (
-            <div
-              key={index}
-              onClick={() => setSelectedIdx(index)}
-              className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
-            >
-              {/* Visual Block with image */}
-              <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
-                <img
-                  src={photo.image}
-                  alt={photo.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+        {/* Photos Grid / Loading / Error / Empty States */}
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 w-full">
+            <div className="w-12 h-12 border-4 border-rose-dark border-t-transparent rounded-full animate-spin"></div>
+            <p className="mt-4 font-abeezee text-rose-dark/70">Loading photos...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-20 w-full">
+            <p className="font-abeezee text-red-500 font-semibold">Failed to load photos</p>
+            <p className="text-xs text-rose-dark/50 mt-1">{error}</p>
+          </div>
+        ) : photos.length === 0 ? (
+          <div className="text-center py-20 w-full">
+            <p className="font-abeezee text-rose-dark/60 font-semibold">No photos found.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {photos.map((photo, index) => (
+              <div
+                key={photo.id || index}
+                onClick={() => setSelectedIdx(index)}
+                className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
+              >
+                {/* Visual Block with image */}
+                <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
+                  <img
+                    src={photo.image}
+                    alt={photo.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Lightbox Modal */}
-      {selectedIdx !== null && (
+      {selectedIdx !== null && photos[selectedIdx] && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-300"
           onClick={() => setSelectedIdx(null)}
