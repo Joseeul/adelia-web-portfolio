@@ -1,8 +1,29 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 import profilePhoto from "../assets/profile_photo.png";
 import userIcon from "../assets/icons/user_icon.svg";
 import eyeIcon from "../assets/icons/eye.svg";
 
 export default function About() {
+  const [resumeUrl, setResumeUrl] = useState("https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk");
+
+  useEffect(() => {
+    async function fetchResumeUrl() {
+      try {
+        const { data, error } = await supabase
+          .from("site_settings")
+          .select("resume_url")
+          .maybeSingle();
+        if (!error && data?.resume_url) {
+          setResumeUrl(data.resume_url);
+        }
+      } catch (err) {
+        console.error("Failed to fetch resume URL in About:", err);
+      }
+    }
+    fetchResumeUrl();
+  }, []);
+
   return (
     <section id="about" className="py-24 bg-rose-dark text-cream relative">
       {/* Decorative vector background */}
@@ -103,7 +124,7 @@ export default function About() {
 
             {/* CTA */}
             <a
-              href="https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk"
+              href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 px-8 py-3 bg-cream text-rose-dark hover:bg-[#faf5ec]/90 active:scale-95 text-sm font-medium rounded-xl font-abeezee shadow-sm hover:shadow-md transition-all duration-300 self-center sm:self-start flex items-center justify-center gap-2"

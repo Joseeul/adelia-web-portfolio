@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 import heroImage from "../assets/hero_image.svg";
 import heartIcon from "../assets/icons/heart_1.svg";
 import mapPinIcon from "../assets/icons/map_pin.svg";
@@ -9,6 +11,25 @@ import instagramIcon from "../assets/icons/instagram_icon.svg";
 import scrollArrowIcon from "../assets/icons/scroll_arrow.svg";
 
 export default function Hero() {
+  const [resumeUrl, setResumeUrl] = useState("https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk");
+
+  useEffect(() => {
+    async function fetchResumeUrl() {
+      try {
+        const { data, error } = await supabase
+          .from("site_settings")
+          .select("resume_url")
+          .maybeSingle();
+        if (!error && data?.resume_url) {
+          setResumeUrl(data.resume_url);
+        }
+      } catch (err) {
+        console.error("Failed to fetch resume URL in Hero:", err);
+      }
+    }
+    fetchResumeUrl();
+  }, []);
+
   return (
     <section className="relative min-h-screen pt-24 pb-16 flex items-center bg-cream overflow-hidden">
       {/* Background Ambient Glows */}
@@ -68,7 +89,7 @@ export default function Hero() {
               Hire Me
             </a>
             <a
-              href="https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk"
+              href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 border border-rose-dark text-rose-dark hover:bg-rose-dark/5 active:scale-95 text-sm rounded-lg font-abeezee transition-all duration-300 flex items-center justify-center gap-2 flex-1 sm:flex-initial"
