@@ -155,19 +155,19 @@ export default function Drawings() {
             <p className="font-abeezee text-rose-dark/60 font-semibold">No drawings found.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 w-full [column-fill:_balance]">
             {filteredDrawings.map((drawing, index) => (
               <div
                 key={drawing.id || index}
                 onClick={() => setSelectedIdx(index)}
-                className="bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
+                className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer block"
               >
                 {/* Visual Block with image */}
-                <div className="w-full aspect-[4/3] rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
+                <div className="w-full rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
                   <img
                     src={drawing.image}
                     alt={drawing.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-auto block object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                   />
                 </div>
@@ -210,16 +210,14 @@ export default function Drawings() {
 
           {/* Modal Content / Visual Block */}
           <div 
-            className="w-full max-w-3xl aspect-[4/3] px-6 relative flex items-center justify-center"
+            className="relative max-h-[85vh] max-w-[90vw] flex items-center justify-center p-2"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-full h-full bg-white rounded-[32px] overflow-hidden relative border border-white/10 shadow-2xl">
-              <img
-                src={filteredDrawings[selectedIdx].image}
-                alt={filteredDrawings[selectedIdx].title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <img
+              src={filteredDrawings[selectedIdx].image}
+              alt={filteredDrawings[selectedIdx].title}
+              className="max-h-[80vh] max-w-full rounded-[24px] object-contain shadow-2xl border border-white/10"
+            />
           </div>
 
           {/* Right Arrow Button */}
