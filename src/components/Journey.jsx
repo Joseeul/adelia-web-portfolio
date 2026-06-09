@@ -116,8 +116,8 @@ export default function Journey() {
       <div className="max-w-6xl mx-auto px-6 font-abeezee">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-black mb-2">
-            <Sparkles className="w-9 h-9 text-rose-dark" />
+          <div className="flex items-center gap-2 text-xl sm:text-4xl font-footlight tracking-widest text-black mb-2">
+            <Sparkles className="w-6 h-6 sm:w-9 sm:h-9 text-rose-dark" />
             Academic, Work & Project
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black mt-6">

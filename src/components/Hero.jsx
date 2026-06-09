@@ -87,7 +87,7 @@ export default function Hero() {
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 border border-rose-dark text-rose-dark hover:bg-rose-dark/5 active:scale-95 text-sm rounded-lg font-abeezee transition-all duration-300 flex items-center justify-center gap-2 flex-1 sm:flex-initial"
+              className="px-5 py-3 border border-rose-dark text-rose-dark hover:bg-rose-dark/5 active:scale-95 text-sm rounded-lg font-abeezee transition-all duration-300 flex items-center justify-center gap-2 flex-1 sm:flex-initial"
             >
               <Eye className="w-4 h-4" />
               See Resume
