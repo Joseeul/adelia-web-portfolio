@@ -7,12 +7,6 @@ import gmailIcon from "../assets/icons/gmail_icon.svg";
 export default function Contact() {
   const contactLinks = [
     {
-      name: "WhatsApp",
-      value: "+628119811171",
-      href: "https://wa.me/628119811171",
-      icon: whatsappIcon,
-    },
-    {
       name: "LinkedIn",
       value: "linkedin.com/in/adeliawiratma",
       href: "https://linkedin.com/in/adeliawiratma",
