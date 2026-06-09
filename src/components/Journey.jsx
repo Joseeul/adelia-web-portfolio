@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import starJourneyIcon from "../assets/icons/star_journey.svg";
-import educationIcon from "../assets/icons/education_icon.svg";
-import workIcon from "../assets/icons/work_icon.svg";
-import otherProjectIcon from "../assets/icons/other_project_icon.svg";
+import { Sparkles, GraduationCap, BriefcaseBusiness, FolderClosed } from "lucide-react";
 
 const TimelineItem = ({ date, title, subtitle, images, onImageClick }) => (
   <div className="relative pl-6 pb-6 last:pb-2 group">
@@ -120,11 +117,7 @@ export default function Journey() {
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="flex items-center gap-2 text-xs sm:text-4xl font-footlight tracking-widest text-black mb-2">
-            <img
-              src={starJourneyIcon}
-              alt="Star Journey Icon"
-              className="w-9 h-9"
-            />
+            <Sparkles className="w-9 h-9 text-rose-dark" />
             Academic, Work & Project
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black mt-6">
@@ -139,7 +132,7 @@ export default function Journey() {
           {/* Education Card */}
           <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-1">
             <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
-              <img src={educationIcon} alt="Education Icon" className="w-10 h-10 object-contain" />
+              <GraduationCap className="w-10 h-10 object-contain text-cream" />
               <h3 className="font-footlight text-xl sm:text-2xl font-bold">
                 Education
               </h3>
@@ -175,7 +168,7 @@ export default function Journey() {
           {/* Work Experiences Card */}
           <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-2 md:row-start-1 md:row-span-2 h-full">
             <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
-              <img src={workIcon} alt="Work Experiences Icon" className="w-10 h-10 object-contain" />
+              <BriefcaseBusiness className="w-10 h-10 object-contain text-cream" />
               <h3 className="font-footlight text-xl sm:text-2xl font-bold">
                 Work Experiences
               </h3>
@@ -211,7 +204,7 @@ export default function Journey() {
           {/* Other Projects Card */}
           <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-2">
             <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
-              <img src={otherProjectIcon} alt="Other Projects Icon" className="w-10 h-10 object-contain" />
+              <FolderClosed className="w-10 h-10 object-contain text-cream" />
               <h3 className="font-footlight text-xl sm:text-2xl font-bold">
                 Other Projects
               </h3>

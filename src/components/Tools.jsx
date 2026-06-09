@@ -1,4 +1,4 @@
-import penToolIcon from "../assets/icons/pen_tool.svg";
+import { PenTool } from "lucide-react";
 import canvaIcon from "../assets/icons/skills/canva.svg";
 import procreateIcon from "../assets/icons/skills/procreate.svg";
 import mayaIcon from "../assets/icons/skills/maya.svg";
@@ -70,7 +70,7 @@ export default function Tools() {
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-20">
           <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-black mb-2">
-            <img src={penToolIcon} alt="Pen Tool Icon" className="w-5 h-5 sm:w-9 sm:h-9" />
+            <PenTool className="w-5 h-5 sm:w-9 sm:h-9 text-rose-dark" />
             My Tools
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl mt-6 text-black">

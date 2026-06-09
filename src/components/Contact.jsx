@@ -1,4 +1,4 @@
-import messageIcon from "../assets/icons/message_icon.svg";
+import { MessagesSquare } from "lucide-react";
 import whatsappIcon from "../assets/icons/whatsapp_icon.svg";
 import linkedinIcon from "../assets/icons/linkedin_ori.svg";
 import instagramIcon from "../assets/icons/ig_icon.svg";
@@ -43,11 +43,7 @@ export default function Contact() {
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-black mb-2">
-            <img
-              src={messageIcon}
-              alt="Message Icon"
-              className="w-5 h-5 sm:w-9 sm:h-9"
-            />
+            <MessagesSquare className="w-5 h-5 sm:w-9 sm:h-9 text-rose-dark" />
             Contact Me
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black mt-6">

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import brushIcon from "../assets/icons/brush_icon.svg";
+import { Brush } from "lucide-react";
 
 export default function Portfolio() {
   const categories = [
@@ -95,7 +95,7 @@ export default function Portfolio() {
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-cream mb-2">
-            <img src={brushIcon} alt="Brush Icon" className="w-5 h-5 sm:w-9 sm:h-9" />
+            <Brush className="w-5 h-5 sm:w-9 sm:h-9" />
             My Portfolio
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-cream mt-6">
