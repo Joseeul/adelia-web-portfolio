@@ -136,117 +136,111 @@ export default function Journey() {
 
         {/* Timeline Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          {/* Column 1 (Left): Education & Other Projects */}
-          <div className="flex flex-col gap-8">
-            {/* Education Card */}
-            <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
-                <img src={educationIcon} alt="Education Icon" className="w-10 h-10 object-contain" />
-                <h3 className="font-footlight text-xl sm:text-2xl font-bold">
-                  Education
-                </h3>
-              </div>
-              <div className="flex flex-col">
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center py-6 text-cream/70">
-                    <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
-                    <p className="mt-2 text-xs font-abeezee">Loading education...</p>
-                  </div>
-                ) : error ? (
-                  <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
-                ) : educationData.length === 0 ? (
-                  <p className="text-xs text-cream/50 font-abeezee text-center py-4">No education history added.</p>
-                ) : (
-                  educationData.map((item) => (
-                    <TimelineItem
-                      key={item.id}
-                      date={item.time_range}
-                      title={item.title}
-                      subtitle={item.description}
-                      images={item.experience_images}
-                      onImageClick={(imgIdx) => {
-                        setActiveExperience(item);
-                        setActiveImageIdx(imgIdx);
-                      }}
-                    />
-                  ))
-                )}
-              </div>
+          {/* Education Card */}
+          <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-1">
+            <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
+              <img src={educationIcon} alt="Education Icon" className="w-10 h-10 object-contain" />
+              <h3 className="font-footlight text-xl sm:text-2xl font-bold">
+                Education
+              </h3>
             </div>
-
-            {/* Other Projects Card */}
-            <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
-                <img src={otherProjectIcon} alt="Other Projects Icon" className="w-10 h-10 object-contain" />
-                <h3 className="font-footlight text-xl sm:text-2xl font-bold">
-                  Other Projects
-                </h3>
-              </div>
-              <div className="flex flex-col">
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center py-6 text-cream/70">
-                    <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
-                    <p className="mt-2 text-xs font-abeezee">Loading projects...</p>
-                  </div>
-                ) : error ? (
-                  <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
-                ) : otherData.length === 0 ? (
-                  <p className="text-xs text-cream/50 font-abeezee text-center py-4">No projects added.</p>
-                ) : (
-                  otherData.map((item) => (
-                    <TimelineItem
-                      key={item.id}
-                      date={item.time_range}
-                      title={item.title}
-                      subtitle={item.description}
-                      images={item.experience_images}
-                      onImageClick={(imgIdx) => {
-                        setActiveExperience(item);
-                        setActiveImageIdx(imgIdx);
-                      }}
-                    />
-                  ))
-                )}
-              </div>
+            <div className="flex flex-col">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-6 text-cream/70">
+                  <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
+                  <p className="mt-2 text-xs font-abeezee">Loading education...</p>
+                </div>
+              ) : error ? (
+                <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
+              ) : educationData.length === 0 ? (
+                <p className="text-xs text-cream/50 font-abeezee text-center py-4">No education history added.</p>
+              ) : (
+                educationData.map((item) => (
+                  <TimelineItem
+                    key={item.id}
+                    date={item.time_range}
+                    title={item.title}
+                    subtitle={item.description}
+                    images={item.experience_images}
+                    onImageClick={(imgIdx) => {
+                      setActiveExperience(item);
+                      setActiveImageIdx(imgIdx);
+                    }}
+                  />
+                ))
+              )}
             </div>
           </div>
 
-          {/* Column 2 (Right): Work Experiences */}
-          <div className="flex flex-col h-full">
-            {/* Work Experiences Card */}
-            <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
-              <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
-                <img src={workIcon} alt="Work Experiences Icon" className="w-10 h-10 object-contain" />
-                <h3 className="font-footlight text-xl sm:text-2xl font-bold">
-                  Work Experiences
-                </h3>
-              </div>
-              <div className="flex flex-col">
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center py-6 text-cream/70">
-                    <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
-                    <p className="mt-2 text-xs font-abeezee">Loading experiences...</p>
-                  </div>
-                ) : error ? (
-                  <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
-                ) : workData.length === 0 ? (
-                  <p className="text-xs text-cream/50 font-abeezee text-center py-4">No work experiences added.</p>
-                ) : (
-                  workData.map((item) => (
-                    <TimelineItem
-                      key={item.id}
-                      date={item.time_range}
-                      title={item.title}
-                      subtitle={item.description}
-                      images={item.experience_images}
-                      onImageClick={(imgIdx) => {
-                        setActiveExperience(item);
-                        setActiveImageIdx(imgIdx);
-                      }}
-                    />
-                  ))
-                )}
-              </div>
+          {/* Work Experiences Card */}
+          <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-2 md:row-start-1 md:row-span-2 h-full">
+            <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
+              <img src={workIcon} alt="Work Experiences Icon" className="w-10 h-10 object-contain" />
+              <h3 className="font-footlight text-xl sm:text-2xl font-bold">
+                Work Experiences
+              </h3>
+            </div>
+            <div className="flex flex-col">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-6 text-cream/70">
+                  <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
+                  <p className="mt-2 text-xs font-abeezee">Loading experiences...</p>
+                </div>
+              ) : error ? (
+                <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
+              ) : workData.length === 0 ? (
+                <p className="text-xs text-cream/50 font-abeezee text-center py-4">No work experiences added.</p>
+              ) : (
+                workData.map((item) => (
+                  <TimelineItem
+                    key={item.id}
+                    date={item.time_range}
+                    title={item.title}
+                    subtitle={item.description}
+                    images={item.experience_images}
+                    onImageClick={(imgIdx) => {
+                      setActiveExperience(item);
+                      setActiveImageIdx(imgIdx);
+                    }}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Other Projects Card */}
+          <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-2">
+            <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
+              <img src={otherProjectIcon} alt="Other Projects Icon" className="w-10 h-10 object-contain" />
+              <h3 className="font-footlight text-xl sm:text-2xl font-bold">
+                Other Projects
+              </h3>
+            </div>
+            <div className="flex flex-col">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-6 text-cream/70">
+                  <div className="w-6 h-6 border-2 border-cream border-t-transparent rounded-full animate-spin"></div>
+                  <p className="mt-2 text-xs font-abeezee">Loading projects...</p>
+                </div>
+              ) : error ? (
+                <p className="text-xs text-red-300 font-abeezee font-semibold text-center py-4">Failed to load</p>
+              ) : otherData.length === 0 ? (
+                <p className="text-xs text-cream/50 font-abeezee text-center py-4">No projects added.</p>
+              ) : (
+                otherData.map((item) => (
+                  <TimelineItem
+                    key={item.id}
+                    date={item.time_range}
+                    title={item.title}
+                    subtitle={item.description}
+                    images={item.experience_images}
+                    onImageClick={(imgIdx) => {
+                      setActiveExperience(item);
+                      setActiveImageIdx(imgIdx);
+                    }}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>
