@@ -1,5 +1,5 @@
 import { MessagesSquare } from "lucide-react";
-import whatsappIcon from "../assets/icons/whatsapp_icon.svg";
+import { motion } from "motion/react";
 import linkedinIcon from "../assets/icons/linkedin_ori.svg";
 import instagramIcon from "../assets/icons/ig_icon.svg";
 import gmailIcon from "../assets/icons/gmail_icon.svg";
@@ -26,6 +26,36 @@ export default function Contact() {
     },
   ];
 
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: 30 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 60, damping: 14 },
+    },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.25,
+      },
+    },
+  };
+
+  const linkVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: "spring", stiffness: 80, damping: 12 },
+    },
+  };
+
   return (
     <section
       id="contact"
@@ -41,7 +71,13 @@ export default function Contact() {
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center text-center mb-16"
+        >
           <div className="flex items-center gap-2 text-2xl sm:text-4xl font-footlight tracking-widest text-black mb-2">
             <MessagesSquare className="w-6 h-6 sm:w-9 sm:h-9 text-rose-dark" />
             Contact Me
@@ -49,10 +85,16 @@ export default function Contact() {
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-black mt-6">
             <span className="text-rose-dark underline">Connect</span> With Me
           </h2>
-        </div>
+        </motion.div>
 
         {/* Contact Main Card */}
-        <div className="bg-rose-dark text-cream rounded-[36px] p-8 sm:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <motion.div 
+          variants={cardVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.25 }}
+          className="bg-rose-dark text-cream rounded-[36px] p-8 sm:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300 grid grid-cols-1 md:grid-cols-2 gap-10 items-center"
+        >
           {/* Left Side: Call to Action */}
           <div className="flex flex-col text-left">
             <h3 className="font-footlight text-3xl sm:text-4xl font-bold leading-tight mb-4">
@@ -66,14 +108,23 @@ export default function Contact() {
           </div>
 
           {/* Right Side: Contact List */}
-          <div className="flex flex-col gap-6 items-start justify-center md:pl-8">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="flex flex-col gap-6 items-start justify-center md:pl-8"
+          >
             {contactLinks.map((link, index) => (
-              <a
+              <motion.a
                 key={index}
+                variants={linkVariants}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 group transition-transform duration-300 hover:translate-x-1"
+                whileHover={{ x: 6, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-4 group transition-transform duration-300"
               >
                 {/* Square Icon */}
                 <img
@@ -85,10 +136,10 @@ export default function Contact() {
                 <span className="font-abeezee text-[14px] sm:text-base text-cream hover:text-cream/90 transition-colors leading-none">
                   {link.value}
                 </span>
-              </a>
+              </motion.a>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

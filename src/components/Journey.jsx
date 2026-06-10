@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { Sparkles, GraduationCap, BriefcaseBusiness, FolderClosed } from "lucide-react";
+import { motion } from "motion/react";
 
 const TimelineItem = ({ date, title, subtitle, images, onImageClick }) => (
-  <div className="relative pl-6 pb-6 last:pb-2 group">
+  <motion.div 
+    initial={{ opacity: 0, x: -15 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.4 }}
+    className="relative pl-6 pb-6 last:pb-2 group"
+  >
     {/* Vertical connecting line */}
     <div className="absolute left-[5px] top-[7px] bottom-0 w-[1.5px] bg-cream group-last:hidden"></div>
     {/* Node dot */}
@@ -26,13 +33,15 @@ const TimelineItem = ({ date, title, subtitle, images, onImageClick }) => (
           {images.map((img, idx) => {
             const isYouTube = img.image_url && (img.image_url.includes("youtube.com") || img.image_url.includes("youtu.be"));
             return (
-              <div 
+              <motion.div 
                 key={img.id || idx}
                 onClick={(e) => {
                   e.stopPropagation();
                   onImageClick(idx);
                 }}
-                className="w-20 sm:w-24 aspect-[4/3] rounded-xl overflow-hidden border border-cream/20 bg-cream/5 cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-md shrink-0 flex items-center justify-center relative"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-20 sm:w-24 aspect-[4/3] rounded-xl overflow-hidden border border-cream/20 bg-cream/5 cursor-pointer hover:shadow-md shrink-0 flex items-center justify-center relative transition-shadow duration-300"
               >
                 {isYouTube ? (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-red-950/20 text-rose-light border border-red-900/30">
@@ -49,13 +58,13 @@ const TimelineItem = ({ date, title, subtitle, images, onImageClick }) => (
                     loading="lazy"
                   />
                 )}
-              </div>
+              </motion.div>
             );
           })}
         </div>
       )}
     </div>
-  </div>
+  </motion.div>
 );
 
 export default function Journey() {
@@ -121,7 +130,13 @@ export default function Journey() {
     <section id="journey" className="py-24 bg-cream text-rose-dark relative">
       <div className="max-w-6xl mx-auto px-6 font-abeezee">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center text-center mb-16"
+        >
           <div className="flex items-center gap-2 text-xl sm:text-4xl font-footlight tracking-widest text-black mb-2">
             <Sparkles className="w-6 h-6 sm:w-9 sm:h-9 text-rose-dark" />
             Academic, Work & Project
@@ -131,12 +146,18 @@ export default function Journey() {
             <span className="text-rose-dark underline">Professional</span>{" "}
             Journey
           </h2>
-        </div>
+        </motion.div>
 
         {/* Timeline Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           {/* Education Card */}
-          <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-1">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.05 }}
+            className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-1"
+          >
             <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
               <GraduationCap className="w-10 h-10 object-contain text-cream" />
               <h3 className="font-footlight text-xl sm:text-2xl font-bold">
@@ -169,10 +190,16 @@ export default function Journey() {
                 ))
               )}
             </div>
-          </div>
+          </motion.div>
 
           {/* Work Experiences Card */}
-          <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-2 md:row-start-1 md:row-span-2 h-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.15 }}
+            className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-2 md:row-start-1 md:row-span-2 h-full"
+          >
             <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
               <BriefcaseBusiness className="w-10 h-10 object-contain text-cream" />
               <h3 className="font-footlight text-xl sm:text-2xl font-bold">
@@ -205,10 +232,16 @@ export default function Journey() {
                 ))
               )}
             </div>
-          </div>
+          </motion.div>
 
           {/* Other Projects Card */}
-          <div className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-2">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.25 }}
+            className="p-6 sm:p-8 bg-rose-dark rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 md:col-start-1 md:row-start-2"
+          >
             <div className="flex items-center gap-3 text-cream mb-6 pb-2 border-b border-cream/10">
               <FolderClosed className="w-10 h-10 object-contain text-cream" />
               <h3 className="font-footlight text-xl sm:text-2xl font-bold">
@@ -241,7 +274,7 @@ export default function Journey() {
                 ))
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -307,7 +340,7 @@ export default function Journey() {
             {/* Description / Info */}
             <div className="w-full md:w-[300px] flex flex-col justify-between text-left shrink-0">
               <div>
-                <span className="text-xs font-bold text-cream tracking-widest uppercase mb-1 block">
+                <span className="text-xs font-bold text-cream/70 tracking-widest uppercase mb-1 block">
                   {activeExperience.time_range}
                 </span>
                 <h3 className="font-footlight text-2xl font-bold text-cream mb-4">
@@ -328,7 +361,7 @@ export default function Journey() {
 
               {/* Page indicator */}
               {activeExperience.experience_images.length > 1 && (
-                <div className="mt-6 text-xs text-cream font-semibold font-abeezee">
+                <div className="mt-6 text-xs text-cream/50 font-semibold font-abeezee">
                   Item {activeImageIdx + 1} of {activeExperience.experience_images.length}
                 </div>
               )}

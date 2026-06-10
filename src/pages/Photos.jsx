@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { motion } from "motion/react";
 
 export default function Photos() {
   const [selectedIdx, setSelectedIdx] = useState(null);
@@ -56,7 +57,13 @@ export default function Photos() {
   }, [selectedIdx, photos.length]);
 
   return (
-    <div className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden"
+    >
       {/* Background Ambient Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-[#FEDD8C]/15 rounded-full blur-[100px] pointer-events-none"></div>
@@ -87,7 +94,12 @@ export default function Photos() {
         </Link>
 
         {/* Page Title */}
-        <div className="mb-12 text-left">
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-12 text-left"
+        >
           <span className="font-abeezee text-sm font-semibold tracking-widest uppercase text-rose-dark/70 mb-2 block">
             Gallery
           </span>
@@ -97,7 +109,7 @@ export default function Photos() {
           <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
             A visual journal of landscapes, street portraitures, and macro studies exploring light, lines, and compositions.
           </p>
-        </div>
+        </motion.div>
 
         {/* Photos Grid / Loading / Error / Empty States */}
         {isLoading ? (
@@ -117,10 +129,14 @@ export default function Photos() {
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 w-full [column-fill:_balance]">
             {photos.map((photo, index) => (
-              <div
+              <motion.div
                 key={photo.id || index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
+                whileHover={{ y: -6, scale: 1.015 }}
                 onClick={() => setSelectedIdx(index)}
-                className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer block"
+                className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md transition-all duration-350 group cursor-pointer block"
               >
                 {/* Visual Block with image */}
                 <div className="w-full rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
@@ -131,7 +147,7 @@ export default function Photos() {
                     loading="lazy"
                   />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -195,6 +211,6 @@ export default function Photos() {
           </button>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
