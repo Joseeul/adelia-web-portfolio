@@ -111,6 +111,12 @@ export default function Journey() {
   const workData = experiences.filter((exp) => exp.type === "work experience");
   const otherData = experiences.filter((exp) => exp.type === "other projects");
 
+  const activeMedia = activeExperience && activeExperience.experience_images
+    ? activeExperience.experience_images[activeImageIdx]
+    : null;
+  const isModalYouTube = activeMedia && activeMedia.image_url && 
+    (activeMedia.image_url.includes("youtube.com") || activeMedia.image_url.includes("youtu.be"));
+
   return (
     <section id="journey" className="py-24 bg-cream text-rose-dark relative">
       <div className="max-w-6xl mx-auto px-6 font-abeezee">
@@ -240,7 +246,7 @@ export default function Journey() {
       </div>
 
       {/* Lightbox Modal for Experience Images / Videos */}
-      {activeExperience && activeExperience.experience_images && activeExperience.experience_images[activeImageIdx] && (
+      {activeExperience && activeExperience.experience_images && activeMedia && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md transition-opacity duration-300"
           onClick={() => setActiveExperience(null)}
@@ -280,22 +286,20 @@ export default function Journey() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Media Display Container (Image or Video Iframe) */}
-            <div className="flex-1 flex items-center justify-center bg-black/20 rounded-2xl overflow-hidden border border-cream/5 min-h-[300px] aspect-video relative">
-              {activeExperience.experience_images[activeImageIdx].image_url && 
-              (activeExperience.experience_images[activeImageIdx].image_url.includes("youtube.com") || 
-               activeExperience.experience_images[activeImageIdx].image_url.includes("youtu.be")) ? (
+            <div className={`flex-1 flex items-center justify-center bg-black/20 rounded-2xl overflow-hidden border border-cream/5 relative ${isModalYouTube ? 'aspect-video min-h-[300px]' : ''}`}>
+              {isModalYouTube ? (
                 <iframe
                   className="w-full h-full absolute inset-0 rounded-2xl border-0"
-                  src={activeExperience.experience_images[activeImageIdx].image_url}
-                  title={activeExperience.experience_images[activeImageIdx].description || activeExperience.title}
+                  src={activeMedia.image_url}
+                  title={activeMedia.description || activeExperience.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
               ) : (
                 <img
-                  src={activeExperience.experience_images[activeImageIdx].image_url}
-                  alt={activeExperience.experience_images[activeImageIdx].description || activeExperience.title}
-                  className="max-h-[50vh] md:max-h-[70vh] object-contain rounded-lg"
+                  src={activeMedia.image_url}
+                  alt={activeMedia.description || activeExperience.title}
+                  className="max-w-full max-h-[50vh] md:max-h-[70vh] object-contain rounded-lg"
                 />
               )}
             </div>
@@ -303,20 +307,20 @@ export default function Journey() {
             {/* Description / Info */}
             <div className="w-full md:w-[300px] flex flex-col justify-between text-left shrink-0">
               <div>
-                <span className="text-xs font-bold text-cream/70 tracking-widest uppercase mb-1 block">
+                <span className="text-xs font-bold text-cream tracking-widest uppercase mb-1 block">
                   {activeExperience.time_range}
                 </span>
                 <h3 className="font-footlight text-2xl font-bold text-cream mb-4">
                   {activeExperience.title}
                 </h3>
                 
-                {activeExperience.experience_images[activeImageIdx].description && (
+                {activeMedia.description && (
                   <div className="mt-4 border-t border-cream/10 pt-4">
                     <span className="text-xs font-bold text-cream/50 tracking-wider uppercase mb-1 block">
                       Attachment Description
                     </span>
                     <p className="font-abeezee text-sm text-cream leading-relaxed whitespace-pre-line">
-                      {activeExperience.experience_images[activeImageIdx].description}
+                      {activeMedia.description}
                     </p>
                   </div>
                 )}
@@ -324,7 +328,7 @@ export default function Journey() {
 
               {/* Page indicator */}
               {activeExperience.experience_images.length > 1 && (
-                <div className="mt-6 text-xs text-cream/50 font-semibold font-abeezee">
+                <div className="mt-6 text-xs text-cream font-semibold font-abeezee">
                   Item {activeImageIdx + 1} of {activeExperience.experience_images.length}
                 </div>
               )}
