@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Brush } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function Portfolio() {
   const categories = [
@@ -89,11 +90,36 @@ export default function Portfolio() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 35 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 80, damping: 15 },
+    },
+  };
+
   return (
     <section id="portfolio" className="py-24 bg-rose-dark text-cream relative">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center text-center mb-16"
+        >
           <div className="flex items-center gap-2 text-2xl sm:text-4xl font-footlight tracking-widest text-cream mb-2">
             <Brush className="w-6 h-6 sm:w-9 sm:h-9" />
             My Portfolio
@@ -101,14 +127,22 @@ export default function Portfolio() {
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl text-cream mt-6">
             Discover My <span className="underline">Projects.</span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* Portfolio Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
           {categories.map((cat, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-[32px] p-6 flex flex-col justify-between text-rose-dark shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"
+              variants={cardVariants}
+              whileHover={{ y: -8, scale: 1.02, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)" }}
+              className="bg-white rounded-[32px] p-6 flex flex-col justify-between text-rose-dark shadow-md transition-all duration-350 group"
             >
               <div>
                 {/* Image Placeholder */}
@@ -139,9 +173,9 @@ export default function Portfolio() {
               >
                 {cat.buttonText}
               </Link>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

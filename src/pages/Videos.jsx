@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { motion } from "motion/react";
 
 export default function Videos() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,7 +52,13 @@ export default function Videos() {
   };
 
   return (
-    <div className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden"
+    >
       {/* Background Ambient Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-[#FEDD8C]/15 rounded-full blur-[100px] pointer-events-none"></div>
@@ -82,7 +89,12 @@ export default function Videos() {
         </Link>
 
         {/* Page Title */}
-        <div className="mb-12 text-left">
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-12 text-left"
+        >
           <span className="font-abeezee text-sm font-semibold tracking-widest uppercase text-rose-dark/70 mb-2 block">
             Gallery
           </span>
@@ -92,7 +104,7 @@ export default function Videos() {
           <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
             A selection of 2D animated short films, animatics, storyboard reels, and motion graphic compile studies.
           </p>
-        </div>
+        </motion.div>
 
         {/* Videos Carousel / Loading / Error / Empty States */}
         {isLoading ? (
@@ -110,13 +122,20 @@ export default function Videos() {
             <p className="font-abeezee text-rose-dark/60 font-semibold">No videos found.</p>
           </div>
         ) : (
-          <div className="flex flex-col items-center max-w-4xl mx-auto w-full">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col items-center max-w-4xl mx-auto w-full"
+          >
             {/* Main row (Desktop/Tablet) */}
             <div className="flex items-center justify-between w-full gap-4 sm:gap-6">
               {/* Left Arrow (Desktop/Tablet) */}
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "rgba(198, 130, 144, 0.1)" }}
+                whileTap={{ scale: 0.9 }}
                 onClick={prevSlide}
-                className="hidden sm:flex w-12 h-12 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 active:scale-95 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer shrink-0"
+                className="hidden sm:flex w-12 h-12 rounded-full bg-rose-dark/5 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer shrink-0"
                 aria-label="Previous Video"
               >
                 <svg
@@ -133,7 +152,7 @@ export default function Videos() {
                     d="M15.75 19.5L8.25 12l7.5-7.5"
                   />
                 </svg>
-              </button>
+              </motion.button>
 
               {/* Video Viewport */}
               <div className="flex-1 aspect-[16/9] w-full bg-black/5 rounded-3xl border-4 border-rose-dark overflow-hidden shadow-lg relative z-10">
@@ -149,9 +168,11 @@ export default function Videos() {
               </div>
 
               {/* Right Arrow (Desktop/Tablet) */}
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "rgba(198, 130, 144, 0.1)" }}
+                whileTap={{ scale: 0.9 }}
                 onClick={nextSlide}
-                className="hidden sm:flex w-12 h-12 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 active:scale-95 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer shrink-0"
+                className="hidden sm:flex w-12 h-12 rounded-full bg-rose-dark/5 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer shrink-0"
                 aria-label="Next Video"
               >
                 <svg
@@ -168,15 +189,16 @@ export default function Videos() {
                     d="M8.25 4.5l7.5 7.5-7.5 7.5"
                   />
                 </svg>
-              </button>
+              </motion.button>
             </div>
 
             {/* Controls for Mobile / Dots for all */}
             <div className="flex items-center gap-6 mt-8">
               {/* Mobile Left Arrow */}
-              <button
+              <motion.button
+                whileTap={{ scale: 0.9 }}
                 onClick={prevSlide}
-                className="flex sm:hidden w-10 h-10 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer"
+                className="flex sm:hidden w-10 h-10 rounded-full bg-rose-dark/5 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5"
@@ -192,14 +214,16 @@ export default function Videos() {
                     d="M15.75 19.5L8.25 12l7.5-7.5"
                   />
                 </svg>
-              </button>
+              </motion.button>
 
               {/* Pagination Dots */}
               <div className="flex gap-2.5">
                 {videos.map((_, idx) => (
-                  <button
+                  <motion.button
                     key={idx}
                     onClick={() => setCurrentIndex(idx)}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
                     className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                       currentIndex === idx
                         ? "bg-rose-dark scale-125 shadow-sm"
@@ -211,9 +235,10 @@ export default function Videos() {
               </div>
 
               {/* Mobile Right Arrow */}
-              <button
+              <motion.button
+                whileTap={{ scale: 0.9 }}
                 onClick={nextSlide}
-                className="flex sm:hidden w-10 h-10 rounded-full bg-rose-dark/5 hover:bg-rose-dark/10 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer"
+                className="flex sm:hidden w-10 h-10 rounded-full bg-rose-dark/5 text-rose-dark items-center justify-center transition-all duration-300 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5"
@@ -229,11 +254,11 @@ export default function Videos() {
                     d="M8.25 4.5l7.5 7.5-7.5 7.5"
                   />
                 </svg>
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

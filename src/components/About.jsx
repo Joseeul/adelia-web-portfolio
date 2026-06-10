@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { UserRound, Eye } from "lucide-react";
+import { motion } from "motion/react";
 import profilePhoto from "../assets/profile_photo.png";
 
 export default function About() {
@@ -53,8 +54,27 @@ export default function About() {
     fetchProjectCounts();
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 80, damping: 15 },
+    },
+  };
+
   return (
-    <section id="about" className="py-24 bg-rose-dark text-cream relative">
+    <section id="about" className="py-24 bg-rose-dark text-cream relative overflow-hidden">
       {/* Decorative vector background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +99,13 @@ export default function About() {
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Title */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center text-center mb-16"
+        >
           <div className="flex items-center gap-2 text-2xl sm:text-4xl font-footlight tracking-widest text-cream mb-2">
             <UserRound className="w-6 h-6 sm:w-9 sm:h-9" />
             About Me
@@ -87,30 +113,52 @@ export default function About() {
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl font-bold text-cream">
             <span className="underline">Know Me</span> Better
           </h2>
-        </div>
+        </motion.div>
 
         {/* Content Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           {/* Left Side: Blob Photo Placeholder */}
-          <div className="md:col-span-5 flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, x: -40 }}
+            whileInView={{ opacity: 1, scale: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.1 }}
+            className="md:col-span-5 flex justify-center"
+          >
             <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]">
               {/* Main Photo Blob Frame */}
-              <div className="absolute inset-2 bg-rose-light/20 flex items-center justify-center transition-transform duration-500 hover:scale-105">
+              <motion.div 
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-2 bg-rose-light/20 flex items-center justify-center rounded-2xl overflow-hidden"
+              >
                 <img
                   src={profilePhoto}
                   alt="Adelia Portrait Photo"
                   className="w-full h-full object-cover"
                 />
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Side: Copy & Stats */}
-          <div className="md:col-span-7 flex flex-col items-start text-left">
-            <h3 className="font-footlight text-2xl sm:text-3xl font-bold text-cream mb-6">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="md:col-span-7 flex flex-col items-start text-left"
+          >
+            <motion.h3 
+              variants={itemVariants}
+              className="font-footlight text-2xl sm:text-3xl font-bold text-cream mb-6"
+            >
               Hello! My name is <span className="underline">Adelia</span>
-            </h3>
-            <div className="space-y-4 font-abeezee text-[14px] sm:text-base text-cream leading-relaxed">
+            </motion.h3>
+            <motion.div 
+              variants={itemVariants}
+              className="space-y-4 font-abeezee text-[14px] sm:text-base text-cream leading-relaxed"
+            >
               <p>
                 As a fourth-semester Animation student at BINUS University, I
                 love transforming ideas into compelling visuals—from dynamic
@@ -119,49 +167,64 @@ export default function About() {
                 work ethic, and a collaborative spirit that helps team projects
                 flourish.
               </p>
-            </div>
+            </motion.div>
 
             {/* Metrics Row */}
-            <div className="grid grid-cols-3 gap-4 mt-8 w-full">
-              <div className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center hover:bg-cream/15 hover:scale-105 transition-all duration-300">
+            <motion.div 
+              variants={itemVariants}
+              className="grid grid-cols-3 gap-4 mt-8 w-full"
+            >
+              <motion.div 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(250, 245, 236, 0.18)" }}
+                className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center transition-all duration-300"
+              >
                 <div className="font-footlight text-2xl sm:text-3xl font-bold text-cream">
                   {counts.videos}
                 </div>
                 <div className="font-abeezee text-[10px] sm:text-xs text-cream/80 mt-1 uppercase tracking-wider font-semibold">
                   Video Projects
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center hover:bg-cream/15 hover:scale-105 transition-all duration-300">
+              <motion.div 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(250, 245, 236, 0.18)" }}
+                className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center transition-all duration-300"
+              >
                 <div className="font-footlight text-2xl sm:text-3xl font-bold text-cream">
                   {counts.photos}
                 </div>
                 <div className="font-abeezee text-[10px] sm:text-xs text-cream/80 mt-1 uppercase tracking-wider font-semibold">
                   Photo Projects
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center hover:bg-cream/15 hover:scale-105 transition-all duration-300">
+              <motion.div 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(250, 245, 236, 0.18)" }}
+                className="p-4 bg-cream/10 rounded-2xl border border-cream/20 text-center transition-all duration-300"
+              >
                 <div className="font-footlight text-2xl sm:text-3xl font-bold text-cream">
                   {counts.drawings}
                 </div>
                 <div className="font-abeezee text-[10px] sm:text-xs text-cream/80 mt-1 uppercase tracking-wider font-semibold">
                   Drawings Projects
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* CTA */}
-            <a
+            <motion.a
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 px-8 py-3 bg-cream text-rose-dark hover:bg-[#faf5ec]/90 active:scale-95 text-sm font-medium rounded-xl font-abeezee shadow-sm hover:shadow-md transition-all duration-300 self-center sm:self-start flex items-center justify-center gap-2"
+              className="mt-8 px-8 py-3 bg-cream text-rose-dark hover:bg-[#faf5ec]/90 text-sm font-medium rounded-xl font-abeezee shadow-sm hover:shadow-md transition-all duration-300 self-center sm:self-start flex items-center justify-center gap-2"
             >
               <Eye className="w-5 h-5 object-contain" />
               See Resume
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </div>
     </section>

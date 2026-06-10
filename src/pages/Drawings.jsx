@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { motion } from "motion/react";
 
 export default function Drawings() {
   const [filter, setFilter] = useState("all");
@@ -62,7 +63,13 @@ export default function Drawings() {
   }, [selectedIdx, filteredDrawings.length]);
 
   return (
-    <div className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-cream text-rose-dark pt-32 pb-24 relative overflow-hidden"
+    >
       {/* Background Ambient Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-[#FEDD8C]/15 rounded-full blur-[100px] pointer-events-none"></div>
@@ -93,7 +100,12 @@ export default function Drawings() {
         </Link>
 
         {/* Page Title */}
-        <div className="mb-12 text-left">
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-12 text-left"
+        >
           <span className="font-abeezee text-sm font-semibold tracking-widest uppercase text-rose-dark/70 mb-2 block">
             Gallery
           </span>
@@ -103,10 +115,15 @@ export default function Drawings() {
           <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
             A curated showcase of my digital and traditional illustrations, character concept designs, and environment layouts.
           </p>
-        </div>
+        </motion.div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-start gap-3 mb-12 font-abeezee text-sm font-medium">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex flex-wrap justify-start gap-3 mb-12 font-abeezee text-sm font-medium"
+        >
           <button
             onClick={() => setFilter("all")}
             className={`px-6 py-2.5 rounded-full border transition-all duration-300 cursor-pointer ${
@@ -137,7 +154,7 @@ export default function Drawings() {
           >
             Manual Drawings
           </button>
-        </div>
+        </motion.div>
 
         {/* Drawings Grid / Loading / Error / Empty States */}
         {isLoading ? (
@@ -157,10 +174,14 @@ export default function Drawings() {
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 w-full [column-fill:_balance]">
             {filteredDrawings.map((drawing, index) => (
-              <div
+              <motion.div
                 key={drawing.id || index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
+                whileHover={{ y: -6, scale: 1.015 }}
                 onClick={() => setSelectedIdx(index)}
-                className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer block"
+                className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer block"
               >
                 {/* Visual Block with image */}
                 <div className="w-full rounded-[22px] overflow-hidden relative border border-rose-dark/5 shadow-inner bg-rose-dark/5">
@@ -171,7 +192,7 @@ export default function Drawings() {
                     loading="lazy"
                   />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -235,6 +256,6 @@ export default function Drawings() {
           </button>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
