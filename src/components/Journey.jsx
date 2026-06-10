@@ -10,10 +10,10 @@ const TimelineItem = ({ date, title, subtitle, images, onImageClick }) => (
     <div className="absolute left-0 top-[7px] w-2.5 h-2.5 rounded-full border border-cream bg-cream group-hover:bg-rose-light group-hover:scale-125 transition-all duration-300"></div>
 
     <div className="flex flex-col text-left">
-      <span className="text-base font-bold text-cream tracking-wider font-abeezee mb-1">
+      <span className="text-[12px] sm:text-base font-bold text-cream tracking-wider font-abeezee mb-1">
         {date}
       </span>
-      <h4 className="font-footlight text-[15px] sm:text-2xl font-bold text-cream leading-tight">
+      <h4 className="font-footlight text-xl sm:text-2xl font-bold text-cream leading-tight">
         {title}
       </h4>
       <p className="font-abeezee text-[12px] sm:text-base text-cream mt-1 whitespace-pre-line">
