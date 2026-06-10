@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { HeartHandshake, MapPin, BriefcaseBusiness, MoveRight, Eye, ChevronsDown } from "lucide-react";
 import heroImage from "../assets/hero_image.svg";
-import heartIcon from "../assets/icons/heart_1.svg";
-import mapPinIcon from "../assets/icons/map_pin.svg";
-import suitcaseIcon from "../assets/icons/suitcase.svg";
-import rightArrowIcon from "../assets/icons/right_arrow.svg";
-import eyeIcon from "../assets/icons/eye.svg";
 import linkedinIcon from "../assets/icons/linkedin_icon.svg";
 import instagramIcon from "../assets/icons/instagram_icon.svg";
-import scrollArrowIcon from "../assets/icons/scroll_arrow.svg";
 
 export default function Hero() {
   const [resumeUrl, setResumeUrl] = useState("https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk");
@@ -45,7 +40,7 @@ export default function Hero() {
         <div className="order-2 md:order-1 flex flex-col items-start text-left">
           {/* Badge */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-rose-dark border-2 border-black text-white font-footlight text-[15px] font-medium shadow-sm mb-6 cursor-pointer transition-transform hover:scale-105 hover:animate-[wiggle_0.25s_ease-in-out_infinite]">
-            <img src={heartIcon} alt="Heart Icon" className="w-6 h-6" />
+            <HeartHandshake className="w-6 h-6" />
             <span>Nice to meet you!</span>
           </div>
 
@@ -70,11 +65,11 @@ export default function Hero() {
           {/* Badges Info */}
           <div className="flex flex-wrap gap-x-6 gap-y-3 mt-6 font-abeezee text-base text-rose-dark">
             <span className="flex items-center gap-1.5">
-              <img src={mapPinIcon} alt="Location Icon" className="w-4 h-4" />
+              <MapPin className="w-4 h-4" />
               South Tangerang, Indonesia
             </span>
             <span className="flex items-center gap-1.5">
-              <img src={suitcaseIcon} alt="Suitcase Icon" className="w-4 h-4" />
+              <BriefcaseBusiness className="w-4 h-4" />
               Available Now
             </span>
           </div>
@@ -85,16 +80,16 @@ export default function Hero() {
               href="#contact"
               className="px-8 py-3 bg-rose-dark text-cream hover:bg-[#b56e7c] active:scale-95 text-sm rounded-lg font-abeezee shadow-sm hover:shadow-md transition-all duration-300 text-center flex-1 sm:flex-initial flex items-center justify-center gap-2"
             >
-              <img src={rightArrowIcon} alt="Arrow Right Icon" className="w-4 h-4" />
+              <MoveRight className="w-4 h-4" />
               Hire Me
             </a>
             <a
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 border border-rose-dark text-rose-dark hover:bg-rose-dark/5 active:scale-95 text-sm rounded-lg font-abeezee transition-all duration-300 flex items-center justify-center gap-2 flex-1 sm:flex-initial"
+              className="px-5 py-3 border border-rose-dark text-rose-dark hover:bg-rose-dark/5 active:scale-95 text-sm rounded-lg font-abeezee transition-all duration-300 flex items-center justify-center gap-2 flex-1 sm:flex-initial"
             >
-              <img src={eyeIcon} alt="Eye Icon" className="w-4 h-4" />
+              <Eye className="w-4 h-4" />
               See Resume
             </a>
           </div>
@@ -155,11 +150,7 @@ export default function Hero() {
         <span className="font-abeezee text-base font-medium text-rose-dark mb-1.5 tracking-wider">
           Scroll down to learn more about me!
         </span>
-        <img
-          src={scrollArrowIcon}
-          alt="Scroll Down Arrow"
-          className="w-6 h-6 animate-bounce mt-4"
-        />
+        <ChevronsDown className="w-6 h-6 animate-bounce mt-4" />
       </div>
 
       {/* Custom Animations inject style */}

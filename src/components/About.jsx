@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { UserRound, Eye } from "lucide-react";
 import profilePhoto from "../assets/profile_photo.png";
-import userIcon from "../assets/icons/user_icon.svg";
-import eyeIcon from "../assets/icons/eye.svg";
 
 export default function About() {
   const [resumeUrl, setResumeUrl] = useState("https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk");
@@ -81,8 +80,8 @@ export default function About() {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Title */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="flex items-center gap-2 text-base sm:text-4xl font-footlight tracking-widest text-cream mb-2">
-            <img src={userIcon} alt="User Icon" className="w-5 h-5 sm:w-9 sm:h-9" />
+          <div className="flex items-center gap-2 text-2xl sm:text-4xl font-footlight tracking-widest text-cream mb-2">
+            <UserRound className="w-6 h-6 sm:w-9 sm:h-9" />
             About Me
           </div>
           <h2 className="font-footlight text-3xl sm:text-4xl lg:text-5xl font-bold text-cream">
@@ -159,7 +158,7 @@ export default function About() {
               rel="noopener noreferrer"
               className="mt-8 px-8 py-3 bg-cream text-rose-dark hover:bg-[#faf5ec]/90 active:scale-95 text-sm font-medium rounded-xl font-abeezee shadow-sm hover:shadow-md transition-all duration-300 self-center sm:self-start flex items-center justify-center gap-2"
             >
-              <img src={eyeIcon} alt="Eye Icon" className="w-5 h-5 object-contain" />
+              <Eye className="w-5 h-5 object-contain" />
               See Resume
             </a>
           </div>
