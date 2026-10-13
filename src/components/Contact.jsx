@@ -15,7 +15,7 @@ export default function Contact() {
     {
       name: "Instagram",
       value: "instagram.com/by__adelia",
-      href: " https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA==",
+      href: "https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA==",
       icon: instagramIcon,
     },
     {
