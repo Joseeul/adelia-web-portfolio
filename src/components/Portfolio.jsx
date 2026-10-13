@@ -5,9 +5,9 @@ import { motion } from "motion/react";
 export default function Portfolio() {
   const categories = [
     {
-      title: "Drawings",
+      title: "Illustrations",
       description:
-        "A selection of digital and traditional illustrations, character designs, and background concept art.",
+        "A collection of digital and traditional drawings created as part of my artistic exploration and personal interest in visual storytelling.",
       buttonText: "Discover Drawings",
       path: "/drawings",
       icon: (
@@ -33,9 +33,9 @@ export default function Portfolio() {
       ),
     },
     {
-      title: "Videos",
+      title: "3D Animation and Modelling",
       description:
-        "2D animated shorts, motion graphics, and video editing compilations showing motion principles and timing.",
+        "A selection of animation and 3D projects showcasing my learning journey in character animation, modeling, and visual storytelling.",
       buttonText: "Discover Videos",
       path: "/videos",
       icon: (
@@ -61,9 +61,9 @@ export default function Portfolio() {
       ),
     },
     {
-      title: "Photos",
+      title: "Photography",
       description:
-        "Landscape, portrait photography, and experimental photo manipulations capturing unique lighting and framing.",
+        "A collection of photographs exploring composition, lighting, and everyday moments through the lens.",
       buttonText: "Discover Photos",
       path: "/photos",
       icon: (
@@ -113,7 +113,7 @@ export default function Portfolio() {
     <section id="portfolio" className="py-24 bg-rose-dark text-cream relative">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -130,7 +130,7 @@ export default function Portfolio() {
         </motion.div>
 
         {/* Portfolio Cards Grid */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -141,7 +141,12 @@ export default function Portfolio() {
             <motion.div
               key={index}
               variants={cardVariants}
-              whileHover={{ y: -8, scale: 1.02, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)" }}
+              whileHover={{
+                y: -8,
+                scale: 1.02,
+                boxShadow:
+                  "0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)",
+              }}
               className="bg-white rounded-[32px] p-6 flex flex-col justify-between text-rose-dark shadow-md transition-all duration-350 group"
             >
               <div>
