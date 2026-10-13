@@ -14,8 +14,8 @@ export default function Contact() {
     },
     {
       name: "Instagram",
-      value: "instagram.com/adeliawiratma",
-      href: "https://instagram.com/adeliawiratma",
+      value: "instagram.com/by__adelia",
+      href: " https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA==",
       icon: instagramIcon,
     },
     {
