@@ -58,14 +58,14 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full z-10 relative">
         {/* Left Column: Text & Actions */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           className="order-2 md:order-1 flex flex-col items-start text-left"
         >
           {/* Badge */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
             className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-rose-dark border-2 border-black text-white font-footlight text-[15px] font-medium shadow-sm mb-6 cursor-pointer transition-transform hover:animate-[wiggle_0.25s_ease-in-out_infinite]"
@@ -75,7 +75,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Heading */}
-          <motion.h1 
+          <motion.h1
             variants={itemVariants}
             className="font-footlight text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-[1.15]"
           >
@@ -86,7 +86,7 @@ export default function Hero() {
           </motion.h1>
 
           {/* Subtitle / Description */}
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="mt-6 font-abeezee text-base sm:text-base text-black leading-relaxed max-w-lg"
           >
@@ -99,7 +99,7 @@ export default function Hero() {
           </motion.p>
 
           {/* Badges Info */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="flex flex-wrap gap-x-6 gap-y-3 mt-6 font-abeezee text-base text-rose-dark"
           >
@@ -114,7 +114,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Action Buttons */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="flex flex-wrap gap-4 mt-8 w-full sm:w-auto"
           >
@@ -141,13 +141,13 @@ export default function Hero() {
           </motion.div>
 
           {/* Divider Line */}
-          <motion.hr 
+          <motion.hr
             variants={itemVariants}
-            className="w-full border-t border-rose-dark mt-10" 
+            className="w-full border-t border-rose-dark mt-10"
           />
 
           {/* Social Links */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="w-full mt-6 flex items-center gap-4"
           >
@@ -170,7 +170,7 @@ export default function Hero() {
               {/* Instagram */}
               <motion.a
                 whileHover={{ scale: 1.15 }}
-                href="https://instagram.com"
+                href="https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA=="
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -190,10 +190,10 @@ export default function Hero() {
 
           <motion.img
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ 
-              opacity: 1, 
+            animate={{
+              opacity: 1,
               scale: 1,
-              y: [0, -12, 0]
+              y: [0, -12, 0],
             }}
             transition={{
               opacity: { duration: 0.6, ease: "easeOut" },
@@ -202,8 +202,8 @@ export default function Hero() {
                 repeat: Infinity,
                 repeatType: "mirror",
                 duration: 4,
-                ease: "easeInOut"
-              }
+                ease: "easeInOut",
+              },
             }}
             src={heroImage}
             alt="Adelia Avatar Illustration"
