@@ -11,6 +11,7 @@ import substancePainterIcon from "../assets/icons/skills/substance_painter.svg";
 import zbrushIcon from "../assets/icons/skills/zbrush.svg";
 import illustratorIcon from "../assets/icons/skills/illustrator.svg";
 import unrealEngineIcon from "../assets/icons/skills/unreal_engine.svg";
+import blenderIcon from "../assets/icons/skills/blender.svg";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 15, scale: 0.9 },
@@ -24,7 +25,7 @@ const itemVariants = {
 
 const ToolItem = ({ name, icon }) => {
   return (
-    <motion.div 
+    <motion.div
       variants={itemVariants}
       whileHover={{ scale: 1.12, y: -6 }}
       whileTap={{ scale: 0.95 }}
@@ -73,6 +74,7 @@ export default function Tools() {
         { name: "ZBrush", icon: zbrushIcon },
         { name: "Illustrator", icon: illustratorIcon },
         { name: "Unreal Engine", icon: unrealEngineIcon },
+        { name: "Blender", icon: blenderIcon },
       ],
     },
   ];
@@ -94,7 +96,7 @@ export default function Tools() {
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -115,8 +117,8 @@ export default function Tools() {
         {/* Categories Section */}
         <div className="space-y-16">
           {categories.map((category, catIndex) => (
-            <motion.div 
-              key={catIndex} 
+            <motion.div
+              key={catIndex}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -131,7 +133,7 @@ export default function Tools() {
               </div>
 
               {/* Tools Row */}
-              <motion.div 
+              <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
