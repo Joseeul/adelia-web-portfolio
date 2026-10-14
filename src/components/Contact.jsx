@@ -3,19 +3,51 @@ import { motion } from "motion/react";
 import linkedinIcon from "../assets/icons/linkedin_ori.svg";
 import instagramIcon from "../assets/icons/ig_icon.svg";
 import gmailIcon from "../assets/icons/gmail_icon.svg";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 export default function Contact() {
+  const [instagramUsername, setInstagramUsername] = useState("by__adelia");
+  const [instagramUrl, setInstagramUrl] = useState(
+    "https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA==",
+  );
+  const [linkedinUrl, setLinkedinUrl] = useState(
+    "https://linkedin.com/in/adeliawiratma",
+  );
+
+  useEffect(() => {
+    async function fetchContact() {
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from("site_settings")
+          .select("*")
+          .maybeSingle();
+        if (!error) {
+          setInstagramUrl(data.instagram_url);
+          setLinkedinUrl(data.linkedin_url);
+          setInstagramUsername(data.instagram_username);
+        }
+      } catch (err) {
+        setIsLoading(false);
+        console.error("Failed to fetch URL in Contact:", err);
+      }
+      setIsLoading(false);
+    }
+    fetchContact();
+  }, []);
+
   const contactLinks = [
     {
       name: "LinkedIn",
       value: "linkedin.com/in/adeliawiratma",
-      href: "https://linkedin.com/in/adeliawiratma",
+      href: linkedinUrl,
       icon: linkedinIcon,
     },
     {
       name: "Instagram",
-      value: "instagram.com/by__adelia",
-      href: "https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA==",
+      value: `instagram.com/${instagramUsername}`,
+      href: instagramUrl,
       icon: instagramIcon,
     },
     {
@@ -71,7 +103,7 @@ export default function Contact() {
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -88,7 +120,7 @@ export default function Contact() {
         </motion.div>
 
         {/* Contact Main Card */}
-        <motion.div 
+        <motion.div
           variants={cardVariants}
           initial="hidden"
           whileInView="visible"
@@ -108,7 +140,7 @@ export default function Contact() {
           </div>
 
           {/* Right Side: Contact List */}
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"

@@ -1,29 +1,46 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import { HeartHandshake, MapPin, BriefcaseBusiness, MoveRight, Eye, ChevronsDown } from "lucide-react";
+import {
+  HeartHandshake,
+  MapPin,
+  BriefcaseBusiness,
+  MoveRight,
+  Eye,
+  ChevronsDown,
+} from "lucide-react";
 import { motion } from "motion/react";
 import heroImage from "../assets/hero_image.svg";
 import linkedinIcon from "../assets/icons/linkedin_icon.svg";
 import instagramIcon from "../assets/icons/instagram_icon.svg";
 
 export default function Hero() {
-  const [resumeUrl, setResumeUrl] = useState("https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk");
+  const [resumeUrl, setResumeUrl] = useState(
+    "https://drive.google.com/file/d/1E3yoS9IFb07-W2-UTpNGacE-cq9CEozc/view?usp=drivesdk",
+  );
+  const [instagramUrl, setInstagramUrl] = useState(
+    "https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA==",
+  );
+  const [linkedinUrl, setLinkedinUrl] = useState(
+    "https://linkedin.com/in/adeliawiratma",
+  );
 
   useEffect(() => {
-    async function fetchResumeUrl() {
+    async function fetchHeroUrl() {
       try {
         const { data, error } = await supabase
           .from("site_settings")
-          .select("resume_url")
+          .select("*")
           .maybeSingle();
-        if (!error && data?.resume_url) {
+        if (!error) {
           setResumeUrl(data.resume_url);
+          setInstagramUrl(data.instagram_url);
+          setLinkedinUrl(data.linkedin_url);
         }
       } catch (err) {
-        console.error("Failed to fetch resume URL in Hero:", err);
+        console.error("Failed to fetch URL in Hero:", err);
       }
     }
-    fetchResumeUrl();
+    fetchHeroUrl();
   }, []);
 
   const containerVariants = {
@@ -158,7 +175,7 @@ export default function Hero() {
               {/* LinkedIn */}
               <motion.a
                 whileHover={{ scale: 1.15 }}
-                href="https://linkedin.com/in/adeliawiratma"
+                href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -170,7 +187,7 @@ export default function Hero() {
               {/* Instagram */}
               <motion.a
                 whileHover={{ scale: 1.15 }}
-                href="https://www.instagram.com/by__adelia?srtk=MTc1ZWJlc2s2NmgycA=="
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
