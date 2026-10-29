@@ -28,7 +28,8 @@ export default function Videos() {
         const mappedVideos = (data || []).map((item, index) => ({
           id: item.id,
           url: item.file_url,
-          title: `Video Project #${index + 1}`,
+          title: item.video_title || `Video Project #${index + 1}`,
+          description: item.video_desc || "",
         }));
         setVideos(mappedVideos);
       } catch (err) {
@@ -50,6 +51,8 @@ export default function Videos() {
     if (videos.length === 0) return;
     setCurrentIndex((prev) => (prev === videos.length - 1 ? 0 : prev + 1));
   };
+
+  const activeVideo = videos[currentIndex];
 
   return (
     <motion.div 
@@ -101,9 +104,18 @@ export default function Videos() {
           <h1 className="font-footlight text-4xl sm:text-5xl font-bold text-rose-dark mb-4">
             Videos & Animates
           </h1>
-          <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
-            A selection of 2D animated short films, animatics, storyboard reels, and motion graphic compile studies.
-          </p>
+          {activeVideo && (
+            <div className="max-w-2xl" aria-live="polite">
+              <h2 className="font-footlight text-2xl sm:text-3xl font-bold text-rose-dark leading-tight">
+                {activeVideo.title}
+              </h2>
+              {activeVideo.description && (
+                <p className="mt-2 font-abeezee text-sm sm:text-base text-rose-dark/80 leading-relaxed whitespace-pre-line">
+                  {activeVideo.description}
+                </p>
+              )}
+            </div>
+          )}
         </motion.div>
 
         {/* Videos Carousel / Loading / Error / Empty States */}
@@ -156,11 +168,11 @@ export default function Videos() {
 
               {/* Video Viewport */}
               <div className="flex-1 aspect-[16/9] w-full bg-black/5 rounded-3xl border-4 border-rose-dark overflow-hidden shadow-lg relative z-10">
-                {videos[currentIndex] && (
+                {activeVideo && (
                   <iframe
                     className="w-full h-full absolute inset-0"
-                    src={videos[currentIndex].url}
-                    title={videos[currentIndex].title}
+                    src={activeVideo.url}
+                    title={activeVideo.video_tile}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
