@@ -1,16 +1,46 @@
-# React + Vite
+# Adelia Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio website to showcase Adelia's profile, journey, skills, and creative works in illustration, 3D animation, and photography. Gallery content and selected site information are dynamically fetched from Supabase.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* Home page featuring Hero, About, Journey, Tools, Portfolio, and Contact sections.
+* Galleries for illustrations, videos, and photography.
+* Portfolio items and experience data loaded from Supabase.
+* Smooth UI animations powered by Motion.
+* Visitor analytics tracking via Vercel Analytics with event logging to Supabase.
+* Fully responsive layout built with Tailwind CSS.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* React 19
+* Vite
+* Tailwind CSS 4
+* React Router
+* Motion
+* Supabase
+* Vercel Analytics
 
-## Expanding the ESLint configuration
+## Routes
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| URL | Page |
+| --- | --- |
+| `/` | Main page and profile sections |
+| `/drawings` | Illustration gallery |
+| `/videos` | 3D animation and modeling gallery |
+| `/photos` | Photography gallery |
+
+## Project Structure
+
+```text
+src/
+├── App.jsx              # Routes and app framework
+├── components/          # Main page section components
+├── lib/supabase.js      # Supabase client initialization
+├── pages/               # Home, Drawings, Videos, and Photos pages
+├── assets/              # Images, icons, and fonts
+├── index.css            # Global styles and Tailwind configuration
+└── main.jsx             # React entry point
+public/                  # Static assets
+
+```
