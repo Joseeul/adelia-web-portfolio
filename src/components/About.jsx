@@ -160,7 +160,7 @@ export default function About() {
               className="space-y-4 font-abeezee text-[14px] sm:text-base text-cream leading-relaxed"
             >
               <p>
-                As a fourth-semester Animation student at BINUS University, I
+                I
                 love transforming ideas into compelling visuals—from dynamic
                 animations to charming greeting card illustrations. I anchor my
                 creative process in meticulous attention to detail, a strong
