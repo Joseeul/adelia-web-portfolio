@@ -98,7 +98,7 @@ export default function Hero() {
           >
             Hi, I'm <span className="text-rose-dark underline">Adelia.</span>
             <span className="mt-2 relative block text-rose-dark">
-              Animation Student
+              3D Animator
             </span>
           </motion.h1>
 
@@ -107,7 +107,7 @@ export default function Hero() {
             variants={itemVariants}
             className="mt-6 font-abeezee text-base sm:text-base text-black leading-relaxed max-w-lg"
           >
-            An Animation student at BINUS University with a passion for visual
+            An aspiring 3D animator with a passion for visual
             storytelling, illustration, and design. I enjoy transforming ideas
             into engaging visual experiences through animation, digital
             illustration, graphic design, and motion graphics. I aim to create
