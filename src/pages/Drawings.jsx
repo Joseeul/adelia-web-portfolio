@@ -5,13 +5,20 @@ import { motion } from "motion/react";
 
 export default function Drawings() {
   const [filter, setFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedIdx, setSelectedIdx] = useState(null);
   const [drawings, setDrawings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const pageSize = 10;
   const filteredDrawings = drawings.filter(
     (drawing) => filter === "all" || drawing.type === filter
+  );
+  const totalPages = Math.ceil(filteredDrawings.length / pageSize);
+  const visibleDrawings = filteredDrawings.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
   );
 
   useEffect(() => {
@@ -122,7 +129,11 @@ export default function Drawings() {
           className="flex flex-wrap justify-start gap-3 mb-12 font-abeezee text-sm font-medium"
         >
           <button
-            onClick={() => setFilter("all")}
+            onClick={() => {
+              setFilter("all");
+              setCurrentPage(1);
+              setSelectedIdx(null);
+            }}
             className={`px-6 py-2.5 rounded-full border transition-all duration-300 cursor-pointer ${
               filter === "all"
                 ? "bg-rose-dark text-cream border-rose-dark shadow-sm scale-105"
@@ -132,7 +143,11 @@ export default function Drawings() {
             All Drawings
           </button>
           <button
-            onClick={() => setFilter("digital")}
+            onClick={() => {
+              setFilter("digital");
+              setCurrentPage(1);
+              setSelectedIdx(null);
+            }}
             className={`px-6 py-2.5 rounded-full border transition-all duration-300 cursor-pointer ${
               filter === "digital"
                 ? "bg-rose-dark text-cream border-rose-dark shadow-sm scale-105"
@@ -142,7 +157,11 @@ export default function Drawings() {
             Digital Drawings
           </button>
           <button
-            onClick={() => setFilter("manual")}
+            onClick={() => {
+              setFilter("manual");
+              setCurrentPage(1);
+              setSelectedIdx(null);
+            }}
             className={`px-6 py-2.5 rounded-full border transition-all duration-300 cursor-pointer ${
               filter === "manual"
                 ? "bg-rose-dark text-cream border-rose-dark shadow-sm scale-105"
@@ -170,14 +189,14 @@ export default function Drawings() {
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 w-full [column-fill:_balance]">
-            {filteredDrawings.map((drawing, index) => (
+            {visibleDrawings.map((drawing, index) => (
               <motion.div
                 key={drawing.id || index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
                 whileHover={{ y: -6, scale: 1.015 }}
-                onClick={() => setSelectedIdx(index)}
+                onClick={() => setSelectedIdx((currentPage - 1) * pageSize + index)}
                 className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer block"
               >
                 {/* Visual Block with image */}
@@ -192,6 +211,39 @@ export default function Drawings() {
               </motion.div>
             ))}
           </div>
+        )}
+
+        {!isLoading && !error && totalPages > 1 && (
+          <nav
+            className="mt-10 flex items-center justify-center gap-5 font-abeezee text-sm"
+            aria-label="Drawings pagination"
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentPage((page) => page - 1);
+                setSelectedIdx(null);
+              }}
+              disabled={currentPage === 1}
+              className="rounded-full border border-rose-dark/20 px-5 py-2.5 transition-colors hover:bg-rose-dark/5 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Previous
+            </button>
+            <span aria-live="polite">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentPage((page) => page + 1);
+                setSelectedIdx(null);
+              }}
+              disabled={currentPage === totalPages}
+              className="rounded-full border border-rose-dark/20 px-5 py-2.5 transition-colors hover:bg-rose-dark/5 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Next
+            </button>
+          </nav>
         )}
       </div>
 
