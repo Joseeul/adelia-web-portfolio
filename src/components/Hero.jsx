@@ -12,6 +12,8 @@ import { motion } from "motion/react";
 import heroImage from "../assets/hero_image.svg";
 import linkedinIcon from "../assets/icons/linkedin_icon.svg";
 import instagramIcon from "../assets/icons/instagram_icon.svg";
+import artstationIcon from "../assets/icons/artstation-pink.svg";
+
 
 export default function Hero() {
   const [resumeUrl, setResumeUrl] = useState(
@@ -194,6 +196,18 @@ export default function Hero() {
                 className="hover:opacity-80 transition-opacity duration-200"
               >
                 <img src={instagramIcon} alt="Instagram" className="w-6 h-6" />
+              </motion.a>
+
+              {/* Artstation */}
+              <motion.a
+                whileHover={{ scale: 1.15 }}
+                href={'https://www.artstation.com/adeliawiratma'}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="hover:opacity-80 transition-opacity duration-200"
+              >
+                <img src={artstationIcon} alt="Artstation" className="w-6 h-6" />
               </motion.a>
             </div>
           </motion.div>

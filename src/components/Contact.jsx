@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import linkedinIcon from "../assets/icons/linkedin_ori.svg";
 import instagramIcon from "../assets/icons/ig_icon.svg";
 import gmailIcon from "../assets/icons/gmail_icon.svg";
+import artstationIcon from "../assets/icons/artstation-logo.svg";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 
@@ -55,6 +56,12 @@ export default function Contact() {
       value: "wiratma.adelia@gmail.com",
       href: "mailto:wiratma.adelia@gmail.com",
       icon: gmailIcon,
+    },
+    {
+      name: "ArtStation",
+      value: "artstation.com/adeliawiratma",
+      href: "https://www.artstation.com/adeliawiratma",
+      icon: artstationIcon,
     },
   ];
 
