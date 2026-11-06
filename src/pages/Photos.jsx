@@ -100,10 +100,7 @@ export default function Photos() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-12 text-left"
         >
-          <span className="font-abeezee text-sm font-semibold tracking-widest uppercase text-rose-dark/70 mb-2 block">
-            Gallery
-          </span>
-          <h1 className="font-footlight text-4xl sm:text-5xl font-bold text-black mb-4">
+          <h1 className="font-footlight text-4xl sm:text-5xl font-bold text-rose-dark mb-4">
             Photography Gallery
           </h1>
           <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
