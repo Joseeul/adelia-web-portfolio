@@ -4,10 +4,18 @@ import { supabase } from "../lib/supabase";
 import { motion } from "motion/react";
 
 export default function Photos() {
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedIdx, setSelectedIdx] = useState(null);
   const [photos, setPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const pageSize = 10;
+  const totalPages = Math.ceil(photos.length / pageSize);
+  const visiblePhotos = photos.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,10 +108,7 @@ export default function Photos() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-12 text-left"
         >
-          <span className="font-abeezee text-sm font-semibold tracking-widest uppercase text-rose-dark/70 mb-2 block">
-            Gallery
-          </span>
-          <h1 className="font-footlight text-4xl sm:text-5xl font-bold text-black mb-4">
+          <h1 className="font-footlight text-4xl sm:text-5xl font-bold text-rose-dark mb-4">
             Photography Gallery
           </h1>
           <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
@@ -128,14 +133,14 @@ export default function Photos() {
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 w-full [column-fill:_balance]">
-            {photos.map((photo, index) => (
+            {visiblePhotos.map((photo, index) => (
               <motion.div
                 key={photo.id || index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
                 whileHover={{ y: -6, scale: 1.015 }}
-                onClick={() => setSelectedIdx(index)}
+                onClick={() => setSelectedIdx((currentPage - 1) * pageSize + index)}
                 className="break-inside-avoid mb-8 bg-white rounded-[32px] p-5 text-rose-dark shadow-sm hover:shadow-md transition-all duration-350 group cursor-pointer block"
               >
                 {/* Visual Block with image */}
@@ -150,6 +155,39 @@ export default function Photos() {
               </motion.div>
             ))}
           </div>
+        )}
+
+        {!isLoading && !error && totalPages > 1 && (
+          <nav
+            className="mt-10 flex items-center justify-center gap-5 font-abeezee text-sm"
+            aria-label="Photos pagination"
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentPage((page) => page - 1);
+                setSelectedIdx(null);
+              }}
+              disabled={currentPage === 1}
+              className="rounded-full border border-rose-dark/20 px-5 py-2.5 transition-colors hover:bg-rose-dark/5 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Previous
+            </button>
+            <span aria-live="polite">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentPage((page) => page + 1);
+                setSelectedIdx(null);
+              }}
+              disabled={currentPage === totalPages}
+              className="rounded-full border border-rose-dark/20 px-5 py-2.5 transition-colors hover:bg-rose-dark/5 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Next
+            </button>
+          </nav>
         )}
       </div>
 
