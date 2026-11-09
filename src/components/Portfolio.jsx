@@ -1,11 +1,41 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Brush } from "lucide-react";
 import { motion } from "motion/react";
+import { supabase } from "../lib/supabase";
 
 export default function Portfolio() {
+  const [thumbnails, setThumbnails] = useState({});
+
+  useEffect(() => {
+    async function fetchThumbnails() {
+      try {
+        const { data, error } = await supabase
+          .from("site_settings")
+          .select("drawings_thumbnail, videos_thumbnail, photos_thumbnail")
+          .maybeSingle();
+
+        if (error) {
+          console.error("Failed to fetch portfolio thumbnails:", error);
+          return;
+        }
+
+        if (data) {
+          setThumbnails(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch portfolio thumbnails:", error);
+      }
+    }
+
+    fetchThumbnails();
+  }, []);
+
   const categories = [
     {
       title: "Illustrations",
+      thumbnailField: "drawings_thumbnail",
+      thumbnail: thumbnails.drawings_thumbnail,
       description:
         "A collection of digital and traditional drawings created as part of my artistic exploration and personal interest in visual storytelling.",
       buttonText: "Discover Drawings",
@@ -34,6 +64,8 @@ export default function Portfolio() {
     },
     {
       title: "3D Animation and Modelling",
+      thumbnailField: "videos_thumbnail",
+      thumbnail: thumbnails.videos_thumbnail,
       description:
         "A selection of animation and 3D projects showcasing my learning journey in character animation, modeling, and visual storytelling.",
       buttonText: "Discover Videos",
@@ -62,6 +94,8 @@ export default function Portfolio() {
     },
     {
       title: "Photography",
+      thumbnailField: "photos_thumbnail",
+      thumbnail: thumbnails.photos_thumbnail,
       description:
         "A collection of photographs exploring composition, lighting, and everyday moments through the lens.",
       buttonText: "Discover Photos",
@@ -150,14 +184,26 @@ export default function Portfolio() {
               className="bg-white rounded-[32px] p-6 flex flex-col justify-between text-rose-dark shadow-md transition-all duration-350 group"
             >
               <div>
-                {/* Image Placeholder */}
                 <div className="w-full aspect-[4/3] bg-rose-dark/5 rounded-[22px] flex items-center justify-center border border-rose-dark/10 overflow-hidden relative mb-6">
-                  {/* Subtle hover zoom ring */}
+                  {cat.thumbnail && (
+                    <img
+                      src={cat.thumbnail}
+                      alt={`${cat.title} thumbnail`}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={() => {
+                        setThumbnails((current) => ({
+                          ...current,
+                          [cat.thumbnailField]: null,
+                        }));
+                      }}
+                    />
+                  )}
                   <div className="absolute inset-0 bg-rose-dark/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                  {/* App/Category Icon */}
-                  <div className="transform group-hover:scale-110 transition-transform duration-500">
-                    {cat.icon}
-                  </div>
+                  {!cat.thumbnail && (
+                    <div className="transform group-hover:scale-110 transition-transform duration-500">
+                      {cat.icon}
+                    </div>
+                  )}
                 </div>
 
                 {/* Card Title */}
