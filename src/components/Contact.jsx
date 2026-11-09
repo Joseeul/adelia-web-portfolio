@@ -6,6 +6,7 @@ import gmailIcon from "../assets/icons/gmail_icon.svg";
 import artstationIcon from "../assets/icons/artstation-logo.svg";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import WebMail from "./WebMail";
 
 export default function Contact() {
   const [instagramUsername, setInstagramUsername] = useState("by__adelia");
@@ -132,10 +133,10 @@ export default function Contact() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.25 }}
-          className="bg-rose-dark text-cream rounded-[36px] p-8 sm:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300 grid grid-cols-1 md:grid-cols-2 gap-10 items-center"
+          className="bg-rose-dark text-cream rounded-[36px] p-8 sm:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300 grid grid-cols-1 md:grid-cols-2 gap-10 items-start"
         >
           {/* Left Side: Call to Action */}
-          <div className="flex flex-col text-left">
+          <div className="flex flex-col text-left md:self-center">
             <h3 className="font-footlight text-3xl sm:text-4xl font-bold leading-tight mb-4">
               Let's Work on Something{" "}
               <span className="text-cream underline">Awesome.</span>
@@ -178,6 +179,10 @@ export default function Contact() {
               </motion.a>
             ))}
           </motion.div>
+
+          <div className="md:col-span-2">
+            <WebMail />
+          </div>
         </motion.div>
       </div>
     </section>
