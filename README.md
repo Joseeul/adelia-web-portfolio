@@ -26,9 +26,9 @@ Personal portfolio website to showcase Adelia's profile, journey, skills, and cr
 | URL | Page |
 | --- | --- |
 | `/` | Main page and profile sections |
-| `/drawings` | Illustration gallery |
+| `/drawings` | Photography and illustration gallery |
 | `/videos` | 3D animation and modeling gallery |
-| `/photos` | Photography gallery |
+| `/photos` | Redirects to `/drawings` |
 
 ## Project Structure
 
@@ -37,7 +37,7 @@ src/
 ├── App.jsx              # Routes and app framework
 ├── components/          # Main page section components
 ├── lib/supabase.js      # Supabase client initialization
-├── pages/               # Home, Drawings, Videos, and Photos pages
+├── pages/               # Home, Drawings, and Videos pages
 ├── assets/              # Images, icons, and fonts
 ├── index.css            # Global styles and Tailwind configuration
 └── main.jsx             # React entry point
