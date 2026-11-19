@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { LoaderCircle, Mail, MessagesSquare, Send } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import emailjs from '@emailjs/browser';
 
 const initialForm = {
   firstName: "",
@@ -93,6 +94,22 @@ export default function WebMail() {
       });
 
       if (error) throw error;
+
+      try {
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICEID,
+          import.meta.env.VITE_EMAILJS_TEMPLATEID,
+          {
+            name: `${form.firstName.trim()} ${form.lastName.trim()}`,
+            email: form.email.trim(),
+            subject: form.subject.trim(),
+            message: form.message.trim(),
+          },
+          import.meta.env.VITE_EMAILJS_PUBLICKEY,
+        );
+      } catch (error) {
+        console.warn("Notifikasi email gagal dikirim:", emailError);
+      }
 
       setForm(initialForm);
       setErrors({});
