@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { LoaderCircle, Mail, MessagesSquare, Send } from "lucide-react";
+import { LoaderCircle, Mail, Send } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import emailjs from "@emailjs/browser";
+
+const COOLDOWN_SECONDS = 60;
 
 const initialForm = {
   firstName: "",
@@ -9,6 +12,7 @@ const initialForm = {
   email: "",
   subject: "",
   message: "",
+  website: "",
 };
 
 const requiredFields = ["firstName", "lastName", "email", "subject", "message"];
@@ -45,6 +49,7 @@ export default function WebMail() {
   const [errors, setErrors] = useState({});
   const [snackbar, setSnackbar] = useState(null);
   const [isSending, setIsSending] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
     if (!snackbar) return undefined;
@@ -52,6 +57,17 @@ export default function WebMail() {
     const timeoutId = window.setTimeout(() => setSnackbar(null), 5000);
     return () => window.clearTimeout(timeoutId);
   }, [snackbar]);
+
+  // Countdown timer untuk cooldown 60 detik setelah pengiriman sukses
+  useEffect(() => {
+    if (cooldown <= 0) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [cooldown]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -62,7 +78,16 @@ export default function WebMail() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (isSending) return;
+    if (isSending || cooldown > 0) return;
+
+    if (form.website.trim() !== "") {
+      setForm(initialForm);
+      setSnackbar({
+        type: "success",
+        message: "Your message was sent successfully. Thank you!",
+      });
+      return;
+    }
 
     const nextErrors = getErrors(form);
     setErrors(nextErrors);
@@ -94,8 +119,25 @@ export default function WebMail() {
 
       if (error) throw error;
 
+      try {
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICEID,
+          import.meta.env.VITE_EMAILJS_TEMPLATEID,
+          {
+            name: `${form.firstName.trim()} ${form.lastName.trim()}`,
+            email: form.email.trim(),
+            subject: form.subject.trim(),
+            message: form.message.trim(),
+          },
+          import.meta.env.VITE_EMAILJS_PUBLICKEY,
+        );
+      } catch (emailError) {
+        console.warn("Notifikasi email gagal dikirim:", emailError);
+      }
+
       setForm(initialForm);
       setErrors({});
+      setCooldown(COOLDOWN_SECONDS);
       setSnackbar({
         type: "success",
         message: "Your message was sent successfully. Thank you!",
@@ -125,10 +167,25 @@ export default function WebMail() {
     error: "bg-red-600 text-white",
   };
 
+  const isButtonDisabled = isSending || cooldown > 0;
+
   return (
     <>
       <div className="w-full rounded-[28px] bg-cream p-6 text-black shadow-inner shadow-black/5 sm:p-8 lg:p-10">
         <form noValidate onSubmit={handleSubmit}>
+          <div className="sr-only" aria-hidden="true">
+            <label htmlFor="webmail-website">Website</label>
+            <input
+              id="webmail-website"
+              name="website"
+              type="text"
+              value={form.website}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="inline-flex items-center gap-2 font-footlight text-xl font-bold text-rose-dark sm:text-2xl">
@@ -236,14 +293,18 @@ export default function WebMail() {
             </p>
             <button
               type="submit"
-              disabled={isSending}
-              className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-rose-dark px-7 font-abeezee text-sm font-medium text-white shadow-md shadow-rose-dark/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#b56e7c] hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-dark enabled:cursor-pointer disabled:cursor-wait disabled:opacity-60"
+              disabled={isButtonDisabled}
+              className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-rose-dark px-7 font-abeezee text-sm font-medium text-white shadow-md shadow-rose-dark/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#b56e7c] hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-dark enabled:cursor-pointer disabled:opacity-60 ${
+                isSending ? "disabled:cursor-wait" : "disabled:cursor-not-allowed"
+              }`}
             >
               {isSending ? (
                 <>
                   Sending
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                 </>
+              ) : cooldown > 0 ? (
+                <>Wait {cooldown}s to send again</>
               ) : (
                 <>
                   Send message
