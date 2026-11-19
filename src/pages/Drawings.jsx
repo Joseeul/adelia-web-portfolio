@@ -32,7 +32,7 @@ export default function Drawings() {
         const { data, error: fetchError } = await supabase
           .from("portfolios")
           .select("*")
-          .eq("category", "drawing")
+          .in("category", ["drawing", "photos"])
           .order("created_at", { ascending: false });
 
         if (fetchError) throw fetchError;
@@ -40,8 +40,18 @@ export default function Drawings() {
         const mappedDrawings = (data || []).map((item) => ({
           id: item.id,
           image: item.file_url,
-          type: item.subcategory === "digital art" ? "digital" : "manual",
-          title: item.subcategory === "digital art" ? "Digital Art" : "Manual Art",
+          type:
+            item.category === "photos"
+              ? "photography"
+              : item.subcategory === "digital art"
+                ? "digital"
+                : "manual",
+          title:
+            item.category === "photos"
+              ? "Photography Artwork"
+              : item.subcategory === "digital art"
+                ? "Digital Art"
+                : "Manual Art",
         }));
         setDrawings(mappedDrawings);
       } catch (err) {
@@ -114,10 +124,10 @@ export default function Drawings() {
           className="mb-12 text-left"
         >
           <h1 className="font-footlight text-4xl sm:text-5xl font-bold text-rose-dark mb-4">
-            Drawings & Illustrations
+            Photos & Illustrations
           </h1>
           <p className="font-abeezee text-base sm:text-lg text-rose-dark/90 max-w-2xl leading-relaxed">
-            A curated showcase of my digital and traditional illustrations, character concept designs, and environment layouts.
+            A curated collection of photography and digital and traditional illustrations.
           </p>
         </motion.div>
 
@@ -140,7 +150,7 @@ export default function Drawings() {
                 : "border-rose-dark/20 text-rose-dark hover:bg-rose-dark/5 active:scale-95"
             }`}
           >
-            All Drawings
+            All Works
           </button>
           <button
             onClick={() => {
@@ -170,6 +180,20 @@ export default function Drawings() {
           >
             Manual Drawings
           </button>
+          <button
+            onClick={() => {
+              setFilter("photography");
+              setCurrentPage(1);
+              setSelectedIdx(null);
+            }}
+            className={`px-6 py-2.5 rounded-full border transition-all duration-300 cursor-pointer ${
+              filter === "photography"
+                ? "bg-rose-dark text-cream border-rose-dark shadow-sm scale-105"
+                : "border-rose-dark/20 text-rose-dark hover:bg-rose-dark/5 active:scale-95"
+            }`}
+          >
+            Photography
+          </button>
         </motion.div>
 
         {/* Drawings Grid / Loading / Error / Empty States */}
@@ -185,7 +209,7 @@ export default function Drawings() {
           </div>
         ) : filteredDrawings.length === 0 ? (
           <div className="text-center py-20 w-full">
-            <p className="font-abeezee text-rose-dark/60 font-semibold">No drawings found.</p>
+            <p className="font-abeezee text-rose-dark/60 font-semibold">No artworks found.</p>
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 w-full [column-fill:_balance]">

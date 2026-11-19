@@ -12,7 +12,7 @@ export default function Portfolio() {
       try {
         const { data, error } = await supabase
           .from("site_settings")
-          .select("drawings_thumbnail, videos_thumbnail, photos_thumbnail")
+          .select("videos_thumbnail, photos_illustration_thumbnail")
           .maybeSingle();
 
         if (error) {
@@ -33,12 +33,13 @@ export default function Portfolio() {
 
   const categories = [
     {
-      title: "Illustrations",
-      thumbnailField: "drawings_thumbnail",
-      thumbnail: thumbnails.drawings_thumbnail,
+      title: "Photos & Illustration",
+      thumbnailField: "photos_illustration_thumbnail",
+      thumbnail:
+        thumbnails.photos_illustration_thumbnail,
       description:
-        "A collection of digital and traditional drawings created as part of my artistic exploration and personal interest in visual storytelling.",
-      buttonText: "Discover Drawings",
+        "A collection of photography and digital and traditional illustrations exploring visual storytelling.",
+      buttonText: "Discover Photos & Illustration",
       path: "/drawings",
       icon: (
         <svg
@@ -63,7 +64,7 @@ export default function Portfolio() {
       ),
     },
     {
-      title: "3D Animation and Modelling",
+      title: "3D Animation",
       thumbnailField: "videos_thumbnail",
       thumbnail: thumbnails.videos_thumbnail,
       description:
@@ -92,37 +93,9 @@ export default function Portfolio() {
         </svg>
       ),
     },
-    {
-      title: "Photography",
-      thumbnailField: "photos_thumbnail",
-      thumbnail: thumbnails.photos_thumbnail,
-      description:
-        "A collection of photographs exploring composition, lighting, and everyday moments through the lens.",
-      buttonText: "Discover Photos",
-      path: "/photos",
-      icon: (
-        <svg
-          className="w-12 h-12 text-rose-dark/45"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
-          />
-        </svg>
-      ),
-    },
   ];
+
+  const orderedCategories = [categories[1], categories[0]];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -169,9 +142,9 @@ export default function Portfolio() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          {categories.map((cat, index) => (
+          {orderedCategories.map((cat, index) => (
             <motion.div
               key={index}
               variants={cardVariants}

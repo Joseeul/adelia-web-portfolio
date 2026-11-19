@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { supabase } from "./lib/supabase";
 import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar";
@@ -7,7 +7,6 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Drawings from "./pages/Drawings";
 import Videos from "./pages/Videos";
-import Photos from "./pages/Photos";
 
 // Helper component to track page views and categories viewed
 function AnalyticsTracker() {
@@ -59,7 +58,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/drawings" element={<Drawings />} />
           <Route path="/videos" element={<Videos />} />
-          <Route path="/photos" element={<Photos />} />
+          <Route path="/photos" element={<Navigate to="/drawings" replace />} />
         </Routes>
       </main>
       <Footer />
